@@ -1,25 +1,17 @@
 /* 
  * File:   NPV.h
- * Author: Dorothee Müller-Ahlheim
+ * Author: Dorothee Mueller-Ahlheim
  *
- * Created on 17. März 2014, 09:14
+ * Created on 17. Maerz 2014, 09:14
  * Headerfile: Deklarationen
  */
 
 #include <vector>
-#include <iostream>
 #include <stdexcept>
-#include "math.h"
-#include <string>
+#include <math.h>
 #include <ctime>
-#include <cstdlib>
 
-using std::cerr;
-using std::endl;
-using std::cout;
-using std::cin;
 using std::vector;
-using std::string;
 
 
 #ifndef NPV_H
@@ -27,19 +19,26 @@ using std::string;
 
 class NPV {
 public:
-    NPV(); //Standartkonstruktor
-    NPV(vector<long double>, const double); //weiterer Konstruktor
-    NPV(size_t);
-    const double get_irate() const;
+    /**********************  Konstruktoren  **********************/
+    NPV();																//Standardkonstruktor
+    explicit NPV(const double interestRate);							//weiterer Konstruktor, uebernimmt Zinzsatz
+    NPV(vector<long double> investments, const double interestRate);	//weiterer Konstruktor, uebrnimmt gegebene Daten
+    explicit NPV(size_t randomCount);									//weiterer Konstruktor, generiert Anzahl zufaelliger Daten
+    
+    /********************** Getter / Setter **********************/
+	const double& get_irate() const;
+    void set_irate(const double& interestRate);
+
     const vector<long double>& get_inv() const;
-        
-    long double reckoning();
-    void add_inv(long double);
+    void add_inv(long double investment);
+    
+    /**********************    Methoden     **********************/
+    const long double reckoning() const; //Berechnet Kapitalwert
+	const long double reckoning(const size_t& roundPrecision) const; //Gibt gerundeten Kapitalwert zurueck
 
 private:
+	/********************** Membervariablen **********************/
     vector<long double> inv;
     double irate;
-
 };
 #endif	/* NPV_H */
-
