@@ -15,18 +15,18 @@ using std::vector;
 
 
 #ifndef NPV_H
-#define	NPV_H
+#define    NPV_H
 
 class NPV {
 public:
     /**********************  Konstruktoren  **********************/
-    NPV();																//Standardkonstruktor
-    explicit NPV(const double interestRate);							//weiterer Konstruktor, uebernimmt Zinzsatz
-    NPV(vector<long double> investments, const double interestRate);	//weiterer Konstruktor, uebrnimmt gegebene Daten
-    explicit NPV(size_t randomCount);									//weiterer Konstruktor, generiert Anzahl zufaelliger Daten
+    NPV();                                                              //Standardkonstruktor
+    explicit NPV(const double interestRate);                            //weiterer Konstruktor, uebernimmt Zinzsatz, explicit verbietet implizite Konvertierung nach NPV
+    NPV(vector<long double> investments, const double interestRate);    //weiterer Konstruktor, uebrnimmt gegebene Daten
+    explicit NPV(size_t randomCount);                                   //weiterer Konstruktor, generiert Anzahl zufaelliger Daten, explicit verbietet implizite Konvertierung nach NPV
     
     /********************** Getter / Setter **********************/
-	const double& get_irate() const;
+    const double& get_irate() const;
     void set_irate(const double& interestRate);
 
     const vector<long double>& get_inv() const;
@@ -34,11 +34,11 @@ public:
     
     /**********************    Methoden     **********************/
     const long double reckoning() const; //Berechnet Kapitalwert
-	const long double reckoning(const size_t& roundPrecision) const; //Gibt gerundeten Kapitalwert zurueck
+    const long double reckoning(const size_t& roundPrecision) const; //Gibt gerundeten Kapitalwert zurueck
 
 private:
-	/********************** Membervariablen **********************/
+    /********************** Membervariablen **********************/
     vector<long double> inv;
     double irate;
 };
-#endif	/* NPV_H */
+#endif    /* NPV_H */
