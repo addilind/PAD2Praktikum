@@ -8,6 +8,7 @@
 
 #include "NPV.h"
 
+
 /********************** Konstruktoren **********************/
 //Standardkonstruktor
 NPV::NPV()

@@ -37,11 +37,13 @@ int main() {
             case 'j':
             {
                 cout << "Anzahl zuf\x84lliger Werte: ";
-                size_t randomCount = 0;
+                int randomCount = 0;//mit vorzeichen, um negative Eingabe zu erkennen
                 cin >> randomCount;
                 if (!cin)
                     throw std::runtime_error("Ungueltige Eingabe");
-                NPV instanz(randomCount);//Konstruktor zur Erzeugung der Zufallsdaten aufrufen
+                if(randomCount < 0)
+                    throw std::runtime_error("Ungueltige Eingabe: negative Anzahl");
+                NPV instanz(static_cast<size_t>(randomCount));//Konstruktor zur Erzeugung der Zufallsdaten aufrufen
 
                 // Zufaellig generierte Werte zur Kontrolle ausgeben
                 cout.precision(10); //Zinzsatz mit ausreichend Nachkommastellen darstellen
@@ -50,12 +52,12 @@ int main() {
                      << "\tZufl\x81sse:" << endl;
                 for (size_t i = 0; i < instanz.get_inv().size(); i++)
                 {
-                    cout << "\t" << instanz.get_inv().at(i);
+                    cout << "\t" << static_cast<double>(instanz.get_inv().at(i));
                 }
                 cout << endl << endl;
 
                 //Ergebnis ausgeben
-                cout << std::fixed; //Keine Exponentialschreibweise
+                cout << std::fixed; //Keine Exponentialschreibweise (Manipulator setzt das Festkommabit und löscht das Zehnerpotenzbit des Stromes)
                 cout.precision(3);
                 cout << "Kapitalwert C0: " << static_cast<double>(instanz.reckoning(3)) << endl;
                 cout.precision(5);//Mit mehr Nachkommastellen ausgeben, um Rundung zu ueberpruefen
@@ -63,7 +65,8 @@ int main() {
                     << ", ungerundet " << static_cast<double>(instanz.reckoning()) << "]" << endl;
                 break;
             }
-            default:
+            case 'n':
+            case 'N':
             {
                 cout << "Zinzsatz: ";
                 double interestRate = 0.0;
@@ -102,6 +105,8 @@ int main() {
                      << ", ungerundet " << static_cast<double>(instanz.reckoning()) << "]" << endl;
                 break;
             }
+            default:
+                throw std::runtime_error("Ungueltige Eingabe");
         }
         return 0;
     } catch (std::exception& e) {
