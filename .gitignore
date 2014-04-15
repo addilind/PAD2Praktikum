@@ -22,5 +22,11 @@
 *.sln.docstates
 
 */Debug/
+*/*/Debug/
+*/Release/
+*/*/Release/
 *.sdf
 *.opensdf
+
+*.log
+*.tlog
