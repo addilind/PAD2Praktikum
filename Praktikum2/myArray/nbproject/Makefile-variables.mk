@@ -9,19 +9,19 @@ CND_DISTDIR=dist
 # Debug configuration
 CND_PLATFORM_Debug=MinGW-Windows
 CND_ARTIFACT_DIR_Debug=dist/Debug/MinGW-Windows
-CND_ARTIFACT_NAME_Debug=liwanzen_probeklausur
-CND_ARTIFACT_PATH_Debug=dist/Debug/MinGW-Windows/liwanzen_probeklausur
+CND_ARTIFACT_NAME_Debug=myarray
+CND_ARTIFACT_PATH_Debug=dist/Debug/MinGW-Windows/myarray
 CND_PACKAGE_DIR_Debug=dist/Debug/MinGW-Windows/package
-CND_PACKAGE_NAME_Debug=liwanzenprobeklausur.tar
-CND_PACKAGE_PATH_Debug=dist/Debug/MinGW-Windows/package/liwanzenprobeklausur.tar
+CND_PACKAGE_NAME_Debug=myarray.tar
+CND_PACKAGE_PATH_Debug=dist/Debug/MinGW-Windows/package/myarray.tar
 # Release configuration
 CND_PLATFORM_Release=MinGW-Windows
 CND_ARTIFACT_DIR_Release=dist/Release/MinGW-Windows
-CND_ARTIFACT_NAME_Release=liwanzen_probeklausur
-CND_ARTIFACT_PATH_Release=dist/Release/MinGW-Windows/liwanzen_probeklausur
+CND_ARTIFACT_NAME_Release=myarray
+CND_ARTIFACT_PATH_Release=dist/Release/MinGW-Windows/myarray
 CND_PACKAGE_DIR_Release=dist/Release/MinGW-Windows/package
-CND_PACKAGE_NAME_Release=liwanzenprobeklausur.tar
-CND_PACKAGE_PATH_Release=dist/Release/MinGW-Windows/package/liwanzenprobeklausur.tar
+CND_PACKAGE_NAME_Release=myarray.tar
+CND_PACKAGE_PATH_Release=dist/Release/MinGW-Windows/package/myarray.tar
 #
 # include compiler specific variables
 #

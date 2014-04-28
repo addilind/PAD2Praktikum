@@ -14,11 +14,12 @@
 #include <string> //include dateien für string
 #include <vector> //include dateien für vector
 #include <iostream> //include dateien für ein und ausgabeströme
+#include <list>
 
 
 
 using std::string;
-using std::vector;
+using std::list;
 using std::cerr;
 using std::cout;
 using std::endl;
@@ -45,19 +46,19 @@ public:
 private:
     string name;
     Region loc;
-    vector<string> connectsTo;
-    vector<string> connectedFrom;
+    list<string> connectsTo;
+    list<string> connectedFrom;
     
 };
 
 //support-funktionen
-void populate(vector<Liwanze>&); //Funktion die Werte in einen Vector schreibt, bekommt leeren Vektor übergeben
-void print_LvzMembers(vector<Liwanze>&); // Funktion die den Inhalt den Vektors ausgibt, bekommt einen vektor übergeben
-void add_Liwanze(string, vector<Liwanze>&);
-void init_connections(vector<Liwanze>&); //Supportfunktion zum vernetzen der 6 ursprünglichen Mitglieder
-void make_connection(vector<Liwanze>&, string, string);
-void namen_eingeben(vector<Liwanze>&);
-void zweinamen_eingeben(vector<Liwanze>&, string, string);
+void populate(list<Liwanze>&); 
+void print_LvzMembers(list<Liwanze>&);
+void add_Liwanze(string, list<Liwanze>&);
+void init_connections(list<Liwanze>&);
+void make_connection(list<Liwanze>&, string, string);
+void namen_eingeben(list<Liwanze>&);
+void zweinamen_eingeben(list<Liwanze>&, string, string);
 
 #endif	/* WS13_H */
 

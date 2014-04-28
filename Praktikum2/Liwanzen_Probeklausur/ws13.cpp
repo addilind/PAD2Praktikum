@@ -25,7 +25,7 @@ Liwanze::Region Liwanze::get_loc() const {
     return loc;
 }
 
-void populate(vector<Liwanze>& Lvz) { // füllt den Übergebenen Vector mit Namen und Regionen
+void populate(list<Liwanze>& Lvz) { 
     Lvz.push_back(Liwanze("Joey", Liwanze::amer));
     Lvz.push_back(Liwanze("Johnny", Liwanze::amer));
     Lvz.push_back(Liwanze("DeeDee", Liwanze::amer));
@@ -36,9 +36,9 @@ void populate(vector<Liwanze>& Lvz) { // füllt den Übergebenen Vector mit Name
     Lvz.push_back(Liwanze("Mama", Liwanze::ndef));
 }
 
-void print_LvzMembers(vector<Liwanze>& Lvz) { // Gibt jedes Element des Vectors aus    
-    for (unsigned int i(0); i < Lvz.size(); i++) {
-        Lvz.at(i).print(); //Für jedes Element wird die print()-Methode aufgerufen
+void print_LvzMembers(list<Liwanze>& Lvz) {
+    for (list<Liwanze>::iterator i = Lvz.begin(); i != Lvz.end(); i++) {
+        i->print(); //Für jedes Element wird die print()-Methode aufgerufen
     }
 }
 
@@ -62,52 +62,45 @@ void Liwanze::print() { //Methode zur Ausgabe
     cout << endl;
 }
 
-void add_Liwanze(string eingabe_name, vector<Liwanze>& Lvz) {
-    bool name_doppelt(false);
-    for (size_t i(0); i < Lvz.size(); i++) { //Vektor bis zum Ende durch zählen
-        if (Lvz.at(i).get_name() == eingabe_name) { // Jeden Index vergleichen
+void add_Liwanze(string eingabe_name, list<Liwanze>& Lvz) {
+    for (list<Liwanze>::iterator i = Lvz.begin(); i != Lvz.end(); i++) {
+        if (i->get_name() == eingabe_name) { // Jeden Index vergleichen
             cout << "Name schon vorhanden! Bitte neuen eingeben!" << endl;
-            name_doppelt = true; // Wenn Name schon vorhanden, soll er nicht hinzugefügt werden
-            break;
+			return;
         }
     }
-    if (name_doppelt == false) { // Falls der Name noch nicht vorhanden ist, soll er hinzugefügt werden
-        Lvz.push_back(Liwanze(eingabe_name, Liwanze::ndef));
-        print_LvzMembers(Lvz);
-    }
+    Lvz.push_back(Liwanze(eingabe_name, Liwanze::ndef));
+    print_LvzMembers(Lvz);
 }
 
 bool Liwanze::connects(Liwanze* to) { //Überprüft ob zur Liwanze Verbindung besteht
-    bool verbindung = false;
-    for (size_t i(0); i < connectedFrom.size(); i++) {
-        if (to->name == connectedFrom.at(i)) { //Überprüfe ob Verbindung(Zeiger auf ein Objekt in connectsTo zeigt) zu einer Liwanze besteht
-            verbindung = true; //Wenn ja setze verbindung true
-            cout << "Verbindung 'connectTo' schon vorhanden!" << endl;
+	for (list<string>::iterator i = connectedFrom.begin(); i != connectedFrom.end(); i++) {
+        if (to->name == *i) { //Überprüfe ob Verbindung(Zeiger auf ein Objekt in connectsTo zeigt) zu einer Liwanze besteht
+            cout << "Verbindung 'connectedFrom' schon vorhanden!" << endl;
+			return true;
         }
     }
-    return verbindung;
-
+    return false;
 }
 
 bool Liwanze::connected(Liwanze* from) { //Überprüft ob von Liwanze Verbindung besteht
-    bool verbindung = false;
-    for (size_t i(0); i < connectsTo.size(); i++) {
-        if (from->name == connectsTo.at(i)) { //Überprüfe ob Verbindung(Zeiger von einem Objekt in connectedFrom) von einer Liwanze besteht
-            verbindung = true;
-            cout << "Verbindung 'connectedFrom' schon vorhanden!" << endl;
-        }
-    }
-    return verbindung;
+	for (list<string>::iterator i = connectsTo.begin(); i != connectsTo.end(); i++) {
+		if (from->name == *i) { //Überprüfe ob Verbindung(Zeiger auf ein Objekt in connectsTo zeigt) zu einer Liwanze besteht
+			cout << "Verbindung 'connectTo' schon vorhanden!" << endl;
+			return true;
+		}
+	}
+	return false;
 }
 
 void Liwanze::print_tierone() { //Ausgabe der Tier one(connectsTo() & connectsFrom())
 
-    for (size_t i(0); i < connectsTo.size(); i++) {
-        cout << "connects To: " << connectsTo.at(i) << std::hex << &connectsTo.at(i) << endl;
-    }
-    for (size_t i(0); i < connectedFrom.size(); i++) {
-        cout << "connected From: " << connectedFrom.at(i) << endl;
-    }
+	for (list<string>::iterator i = connectsTo.begin(); i != connectsTo.end(); i++) {
+		cout << "connects To: " << *i << std::hex << &(*i) << endl;
+	}
+	for (list<string>::iterator i = connectedFrom.begin(); i != connectedFrom.end(); i++) {
+		cout << "connected From: " << *i << std::hex << &(*i) << endl;
+	}
     cout << endl;
 }
 
@@ -119,7 +112,7 @@ void Liwanze::add_connFrom(Liwanze* from) { //Stellt Verbindung von Liwanze her 
     connectedFrom.push_back(from->get_name()); //Schreibt Zeiger auf Namen in den Vektor rein
 }
 
-void init_connections(vector<Liwanze>& Lvz) { //Bsp.: Lvz, Joey to Johnny
+void init_connections(list<Liwanze>& Lvz) { //Bsp.: Lvz, Joey to Johnny
     make_connection(Lvz, "Joey", "Johnny");
     make_connection(Lvz, "Joey", "DeeDee");
     make_connection(Lvz, "Joey", "Suzy");
@@ -130,25 +123,25 @@ void init_connections(vector<Liwanze>& Lvz) { //Bsp.: Lvz, Joey to Johnny
     make_connection(Lvz, "Tommy", "Suzy");
     make_connection(Lvz, "Sheena", "Joey");
 
-    for (size_t i(0); i < Lvz.size(); i++) {
-        cout << Lvz.at(i).get_name() << endl;
-        Lvz.at(i).print_tierone();
+	for (list<Liwanze>::iterator i = Lvz.begin(); i != Lvz.end(); i++) {
+        cout << i->get_name() << endl;
+        i->print_tierone();
     }
 
 }
 
-void make_connection(vector<Liwanze>& Lvz, string Liwanze1, string Liwanze2) {
+void make_connection(list<Liwanze>& Lvz, string Liwanze1, string Liwanze2) {
     Liwanze * from(0); //Zeiger mit Namen from
     Liwanze * to(0); //Zeiger mit Namen to
 
-    for (size_t i(0); i < Lvz.size(); i++) {
-        if (Lvz.at(i).get_name() == Liwanze1) {
-            to = &(Lvz.at(i));
+	for (list<Liwanze>::iterator i = Lvz.begin(); i != Lvz.end(); i++) {
+        if (i->get_name() == Liwanze1) {
+            to = &(*i);
         }
     }
-    for (size_t i(0); i < Lvz.size(); i++) {
-        if (Lvz.at(i).get_name() == Liwanze2) {
-            from = &(Lvz.at(i));
+	for (list<Liwanze>::iterator i = Lvz.begin(); i != Lvz.end(); i++) {
+        if (i->get_name() == Liwanze2) {
+            from = &(*i);
         }
     }
 
@@ -163,7 +156,7 @@ void make_connection(vector<Liwanze>& Lvz, string Liwanze1, string Liwanze2) {
     }
 }
 
-void namen_eingeben(vector<Liwanze>& Lvz) {
+void namen_eingeben(list<Liwanze>& Lvz) {
 
     string eingabe_name("noName");
     while (eingabe_name != "q") {
@@ -177,15 +170,15 @@ void namen_eingeben(vector<Liwanze>& Lvz) {
     }
 }
 
-void zweinamen_eingeben(vector<Liwanze>& Lvz, string Liwanze1, string Liwanze2) {
+void zweinamen_eingeben(list<Liwanze>& Lvz, string Liwanze1, string Liwanze2) {
     // Überprüfe ob einer der beiden Namen nicht registriert wurde:    
     bool name1_vorhanden(false);
-    bool name2_vorhanden(false);
-    for (size_t i(0); i < Lvz.size(); i++) { //Vektor bis zum Ende durch zählen
-        if (Lvz.at(i).get_name() == Liwanze1) { // Jeden Index vergleichen
+	bool name2_vorhanden(false);
+	for (list<Liwanze>::iterator i = Lvz.begin(); i != Lvz.end(); i++) {
+        if (i->get_name() == Liwanze1) { // Jeden Index vergleichen
             name1_vorhanden = true;
         }
-        if (Lvz.at(i).get_name() == Liwanze2) {
+        if (i->get_name() == Liwanze2) {
             name2_vorhanden = true;
         }
     }

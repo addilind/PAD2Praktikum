@@ -11,7 +11,7 @@ int main() {
     try {
         string Liwanze1("noName");
         string Liwanze2("noName");
-        vector<Liwanze> Lvz;
+        list<Liwanze> Lvz;
         populate(Lvz);
         print_LvzMembers(Lvz);
         init_connections(Lvz);
