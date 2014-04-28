@@ -24,7 +24,7 @@ CLEAN_SUBPROJECTS=${CLEAN_SUBPROJECTS_${SUBPROJECTS}}
 
 
 # Project Name
-PROJECTNAME=Liwanzen_Komplett
+PROJECTNAME=Liwanzen_Probeklausur
 
 # Active Configuration
 DEFAULTCONF=Debug
