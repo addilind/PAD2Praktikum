@@ -123,7 +123,7 @@ public:
     void set(int sx, int sy, int ex, int ey) {
     }
 
-    void draw(int, int, int, int, Frame&); // rein virtuelles shape::draw() ueberschreiben
+    void draw(Frame*); // rein virtuelles shape::draw() ueberschreiben
 
     void move(int h, int v); // rein virtuelles shape::move() ueberschreiben
 
@@ -150,9 +150,9 @@ void Line::move(int h, int v) {// Def. der line::move() Methode
 }
 // ----- Bresenham-Algorithmus -----
 
-void Line::draw(int sx, int sy, int ex, int ey, Frame& test) {
-    int dx = (ex - sx); //durchschnitt
-    int dy = (ey - sy);
+void Line::draw(Frame* test) {
+    int dx = (end_x - start_x); //durchschnitt
+    int dy = (end_y - start_y);
     int xstep = 1;
     int ystep = 1;
     int f;
@@ -171,27 +171,27 @@ void Line::draw(int sx, int sy, int ex, int ey, Frame& test) {
 
     if (dy <= dx) {
         f = -dx;
-        while (sx < ex || sx > ex) {
-            test.put_point(sx, sy);
+        while (start_x < end_x || start_x > end_x) {
+            test->put_point(start_x, start_y);
             f = f + b;
             if (f > b) {
-                sy = sy + ystep;
+                start_y = start_y + ystep;
                 f = f - a;
             }
-            sx = sx + xstep;
+            start_x = start_x + xstep;
         }
     } else {
         f = -dy;
-        while (sy < ey || sy > ey) {
-            test.put_point(sx, sy);
+        while (start_y < end_y || start_y > end_y) {
+            test->put_point(start_x, start_y);
             f = f + a;
             if (f > a) {
-                sx = sx + xstep;
+                start_x = start_x + xstep;
                 f = f - b;
             }
-            sy = sy + ystep;
+            start_y = start_y + ystep;
         }
-        test.put_point(sx, sy);
+        test->put_point(start_x, start_y);
     }
 }
 //schnelle-richtung herrausfinden ueber if-abfrage; Bei dx = 7 und dy = 4 ist x die schnelle richtung

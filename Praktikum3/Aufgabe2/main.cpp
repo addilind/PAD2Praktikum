@@ -13,48 +13,14 @@
 int main() {
     try {
         Frame test;
-        Line linientest;
-        //Linie (gerade)
-        int sx = 34;
-        int sy = 1;
-        int ex = 34;
-        int ey = 20;
         
-        int sx3 = 35;
-        int sy3 = 20;
-        int ex3 = 35;
-        int ey3 = 1;
+//        Line L1 (0, 0, 10, 10); //test ok
+//        L1.draw(&test);
+//        Line L2 (10, 0, 10, 20); //test ok
+//        L2.draw(&test);
+//        Line L3 (20, 0, 10, 20); //test ok
+//        L3.draw(&test);
         
-        //Linie (diagonal)
-        int sx1 = 34;
-        int sy1 = 1;
-        int ex1 = 20;
-        int ey1 = 20;
-        
-        int sx2 = 20;
-        int sy2 = 1;
-        int ex2 = 34;
-        int ey2 = 20;
-        
-        int sx4 = 0;
-        int sy4 = 0;
-        int ex4 = 55;
-        int ey4 = 55;
-        
-        
-        test.put_point(36, 1);
-        test.put_point(36, 2);
-        test.put_point(36, 3);
-        test.put_point(36, 4);
-        test.put_point(36, 5);
-        test.put_point(36, 6);
-        
-        linientest.draw(sx, sy, ex, ey, test); //gerade Linie (von links nach rechts)
-        linientest.draw(sx3, sy3, ex3, ey3, test); //gerade Linie (von rechts nach links)
-        linientest.draw(sx1, sy1, ex1, ey1, test); //Diagonal (von links nach rechts) sich ueberschneidend mit test3
-        linientest.draw(sx2, sy2, ex2, ey2, test); //Diagonal (von rechts nach links), test3
-      //  bresenham(sx, sy, ex, ey, test); //Punkt, der nicht auf dem Frame liegt
-        linientest.draw(sx4, sy4, ex4, ey4, test);
         
         test.show();
         test.show_unf();
