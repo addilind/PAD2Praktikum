@@ -32,8 +32,6 @@ void populate(list<Liwanze>& Lvz) {
     Lvz.push_back(Liwanze("Tommy", Liwanze::emea));
     Lvz.push_back(Liwanze("Suzy", Liwanze::apac));
     Lvz.push_back(Liwanze("Sheena", Liwanze::amer));
-    Lvz.push_back(Liwanze("Papa", Liwanze::ndef));
-    Lvz.push_back(Liwanze("Mama", Liwanze::ndef));
 }
 
 void print_LvzMembers(list<Liwanze>& Lvz) {
@@ -96,10 +94,10 @@ bool Liwanze::connected(Liwanze* from) { //Überprüft ob von Liwanze Verbindung
 void Liwanze::print_tierone() { //Ausgabe der Tier one(connectsTo() & connectsFrom())
 
 	for (list<string>::iterator i = connectsTo.begin(); i != connectsTo.end(); i++) {
-		cout << "connects To: " << *i << std::hex << &(*i) << endl;
+		cout << "connects To: " << *i << std::hex << " Adresse: " <<&(*i) << endl;
 	}
 	for (list<string>::iterator i = connectedFrom.begin(); i != connectedFrom.end(); i++) {
-		cout << "connected From: " << *i << std::hex << &(*i) << endl;
+		cout << "connected From: " << *i << std::hex << " Adresse: " << &(*i) << endl;
 	}
     cout << endl;
 }
@@ -123,7 +121,7 @@ void init_connections(list<Liwanze>& Lvz) { //Bsp.: Lvz, Joey to Johnny
     make_connection(Lvz, "Tommy", "Suzy");
     make_connection(Lvz, "Sheena", "Joey");
 
-	for (list<Liwanze>::iterator i = Lvz.begin(); i != Lvz.end(); i++) {
+    for (list<Liwanze>::iterator i = Lvz.begin(); i != Lvz.end(); i++) {
         cout << i->get_name() << endl;
         i->print_tierone();
     }

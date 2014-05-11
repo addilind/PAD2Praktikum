@@ -8,7 +8,6 @@
 #ifndef MYVECTOR_H
 #define	MYVECTOR_H
 
-
 #include <stdexcept>
 #include <vector>
 
@@ -20,7 +19,7 @@ public:
     myVector() : sz(0), space(0), elem(0) { //standartkonstruktor
     }
 
-    explicit myVector(int s) : sz(s), space(s), elem(new T[s]) {
+    explicit myVector(int s) : sz(s), space(s), elem(new T[s]) { //explicit verhindert implizite Typumwandlung
     } //weiterer Konstruktor
 
     myVector(const myVector& source) : sz(source.sz), space(source.sz), elem(new T[source.sz]){
@@ -29,7 +28,7 @@ public:
         }
     } //Copy-Konstruktor
 
-    myVector& operator=(const myVector& a) {
+    myVector& operator=(const myVector& a) { //Zuweisungsoperator
         if (this == &a) return *this;
         if (a.sz <= space) {
             for (size_t i(0); i < a.sz; i++) {
@@ -51,25 +50,25 @@ public:
         return *this;
     }
 
-    ~myVector() { //destruktor
+    ~myVector() { //Destruktor
         delete[] elem;
     }
 
-    int size() const {
+    int size() const { //Groesse
         return sz;
     }
 
-    int capacity() const {
+    int capacity() const { //Kapazitaet
         return space;
     }
 
-    T& operator[](int n) { //Indexoperator
+    T& operator[](int n) { //Indexoperator ohne ueberpruefung
 //        if (n < 0 || sz <= n)
 //            throw std::runtime_error("myVector::operator[](), bad index");
         return elem[n];
     }
 
-    T& at(int n) { //Indexoperator
+    T& at(int n) { //Indexoperator mit ueberpruefung
         if (n < 0 || sz <= n)
             throw std::runtime_error("myVector::at(), bad index");
         return elem[n];
@@ -114,53 +113,60 @@ private:
     int space;
     T* elem;
 };
-//
-//class myVec : public myVector<double> {
-//public:
-//
-//    myVec() : myVector<double>(), lb(0) {
-//    }
-//
-//    myVec(int low, int high) : myVector<double>(high - low + 1), lb(low) {
-//    }
-//    double& operator[](int i) {
-//        return myVector<double>::operator[](i - lb);
-//    }
-//
-//    int lo() const {
-//        return lb;
-//    }
-//
-//    int hi() const {
-//        return lb + size() - 1;
-//    }
-//
-//private:
-//    int lb; // lowerbound, also der untere Index
-//};
-//
-//class myVecstd : public vector<double> {
-//public:
-//
-//    myVecstd() : vector<double>(), lb(0) {
-//    }
-//
-//    myVecstd(int low, int high) : vector<double>(high - low + 1), lb(low) {
-//    }
-//    double& operator[](int i) {
-//        return vector<double>::operator[](i - lb);
-//    }
-//
-//    int lo() const {
-//        return lb;
-//    }
-//
-//    int hi() const {
-//        return lb + size() - 1;
-//    }
-//
-//private:
-//    int lb; // lowerbound, also der untere Index
-//};
+
+class myVec : public myVector<double> {
+public:
+
+    myVec() : myVector<double>(), lb(0) { //Standartkonstruktor
+    }
+
+    myVec(int low, int high) : myVector<double>(high - low + 1), lb(low) { //weiterer Konstruktor
+    }
+    
+    ~myVec() { //Destruktor
+        lb = 0;
+    }
+    
+    double& operator[](int i) { //Indexoperator
+        return myVector<double>::operator[](i - lb);
+    }
+
+    int lo() const { //unterer Index (der niedrigste)
+        return lb;
+    }
+
+    int hi() const { //oberer Index (der hoechste))
+        return lb + size() - 1;
+    }
+
+private:
+    int lb; // lowerbound, also der untere Index
+};
+
+class myVecstd : public vector<double> {
+public:
+
+    myVecstd() : vector<double>(), lb(0) { //Standartkonstruktor
+    }
+
+    myVecstd(int low, int high) : vector<double>(high - low + 1), lb(low) { //weiterer Konstruktor
+    }
+    
+    double& operator[](int i) { //Indexoperator
+        return vector<double>::operator[](i - lb);
+    }
+
+    int lo() const { //unterer Index (der niedrigste))
+        return lb;
+    }
+
+    int hi() const { //oberer Index (der hoechste)
+        return lb + size() - 1;
+    }
+
+private:
+    int lb; // lowerbound, also der untere Index
+};
+
 #endif	/* MYVECTOR_H */
 

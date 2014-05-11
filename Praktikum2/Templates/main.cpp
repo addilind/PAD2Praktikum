@@ -25,6 +25,7 @@ int main() {
         myVector<char> testC;
         myVector<int> testI;
         myVector<double> testD;
+        
 
         testfunction<string> (testS, "abc", "def");
         testfunction<char> (testC, 'a', 'b');
@@ -56,11 +57,19 @@ int main() {
 }
 
 template<class T> void testfunction(myVector<T>& test, const T& val, const T& halla) {
+    
     test.push_back(val);
     test.push_back(halla);
     test.push_back(halla);
-
-
+    
+    myVector<T> testcopy;
+    testcopy = myVector<T>(test); //Test Zuweisungsoperator und Copykonstruktor
+    
+    for(size_t i(0U); i<test.size(); i++){
+        std::cout << "Vektorinhalt: '" << test[i] << "'; ";
+        std::cout << "Kopierter Vektorinhalt: '" << testcopy[i] << "'" << std::endl;
+    }
+        
     std::cout << "Wert am Index 2: " << test.get(2) << std::endl;
     test.set(2, val);
     std::cout << "Wert am Index 2 nach set(): " << test.get(2) << std::endl;
@@ -68,4 +77,11 @@ template<class T> void testfunction(myVector<T>& test, const T& val, const T& ha
     std::cout << "Wert am Index 0: " << test.get(0) << std::endl;
     std::cout << "Wert am Index 1 mit at(): " << test.at(1) << std::endl;
     std::cout << "Vektorgroesse: " << test.size() << std::endl;
+    std::cout << "Vektorkapazitaet: " << test.capacity() << std::endl;
+    test.resize(15);
+    std::cout << "Vektorgroesse nach resize(): " << test.size() << std::endl;
+    std::cout << "Vektorkapazitaet nach resize(): " << test.capacity() << std::endl;
+    test.reserve(20);
+    std::cout << "Vektorkapazitaet nach reverse(): " << test.capacity() << std::endl;
+    
 }

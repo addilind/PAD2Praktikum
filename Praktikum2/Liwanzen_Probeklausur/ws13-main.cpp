@@ -53,8 +53,12 @@ int main() {
                                 if (name_doppelt == false) {
                                     zweinamen_eingeben(Lvz, Liwanze1, Liwanze2);
                                 }
-                            } else return 0;
-                        } else return 0;
+                            }
+                            for (list<Liwanze>::iterator i = Lvz.begin(); i != Lvz.end(); i++) {
+                                cout << i->get_name() << endl;
+                                i->print_tierone();
+                            }
+                        }
                     }
                     break;
                 case 1:
@@ -65,7 +69,7 @@ int main() {
                     break;
             }
         }
-        
+
     } catch (std::exception& e) {
         cerr << "Ausnahme: " << e.what();
         return -2;
