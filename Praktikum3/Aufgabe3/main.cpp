@@ -16,15 +16,18 @@ int main() {
     try {
         Frame test;
 
-//        Line L(20, 20, 34, 34); //test ok
+        Line L(20, 20, 34, 34); //test ok
 //        L.draw(&test);
-//        Rectangle R(0, 10, 10, 20); // test ok
+        Rectangle R(0, 10, 10, 20); // test ok
 //        R.draw(&test);
 //        Triangle T(0, 0, 10, 10, 20, 20); //test ungueltiges dreieck: ok
 //        T.draw(&test);
-//        Triangle T(34, 20, 10, 20, 0, 0); //test ok
+        Triangle T(34, 20, 10, 20, 0, 0); //test ok
 //        T.draw(&test);
-
+//        Rectangle R(0, 1, 2, 3); // test ok
+//        R.draw(&test);
+        
+        show_all_shapes(&test); // test ok
 
         test.show();
 
