@@ -33,23 +33,10 @@ private:
     static Shape* last; // Zeiger auf die zuletzt erzeugte Figur (d.h. Listenanfang)
     Shape* prev; // Zeiger auf die zuvor erzeugte Figur (d.h. die naechste in der Liste) 
 };
-Shape* Shape::last = 0; // initialisiert den staticMember mit dem Nullzeiger
 
-void show_all_shapes(Frame* p) { // gibt alle Shape Objekte auf Frame* aus
-    for (Shape* pB = Shape::getLast(); pB; pB = pB->getPrev()) {
-        pB->draw(p);
-        cout << endl;
-    }
-    cout << endl;
-}
 
-bool proof_points(int sx, int sy, int ex, int ey) { //Ueberprueft ob Start und Endpunkte gleich sind
-    if ((sx == ex) && (sy == ey)) {
-        return true;
-    } else {
-        return false;
-    }
-}
+void show_all_shapes(Frame* p);
+bool proof_points(int sx, int sy, int ex, int ey);
 
 
 

@@ -1,29 +1,28 @@
 /* 
- * File:   line.h
+ * File:   Aufgabe2.h
  * Author: Dorothee Müller-Ahlheim
  *
- * Created on 11. Mai 2014, 09:27
+ * Created on 12. Mai 2014, 10:53
  */
 
-#include "shape.h"
+#ifndef AUFGABE2_H
+#define	AUFGABE2_H
 
-#ifndef LINE_H
-#define	LINE_H
+#include "frame.h"
 
-//----- Line-Klasse (abgeleitet von Shape) -----
+void Bresenham(Frame* target, int x1, int y1, int x2, int y2);
 
-class Line : public Shape {
+class Line : public Frame {
 public:
     Line(); // Standardkonstruktor
     Line(int sx, int sy, int ex, int ey); // ein Konstruktor
 
-    void set(int sx, int sy, int ex, int ey);
+    void set(int sx, int sy, int ex, int ey) {
+    }
 
     void draw(Frame*); // rein virtuelles shape::draw() ueberschreiben
 
     void move(int h, int v); // rein virtuelles shape::move() ueberschreiben
-
-    bool Line_on_Frame(Frame* t);
 
 private:
     int start_x;
@@ -32,4 +31,5 @@ private:
     int end_y;
 };
 
-#endif	/* LINE_H */
+#endif	/* AUFGABE2_H */
+

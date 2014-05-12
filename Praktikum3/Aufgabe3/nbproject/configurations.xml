@@ -18,7 +18,13 @@
     <logicalFolder name="SourceFiles"
                    displayName="Source Files"
                    projectFiles="true">
+      <itemPath>frame.cpp</itemPath>
+      <itemPath>line.cpp</itemPath>
       <itemPath>main.cpp</itemPath>
+      <itemPath>rectangle.cpp</itemPath>
+      <itemPath>shape.cpp</itemPath>
+      <itemPath>square.cpp</itemPath>
+      <itemPath>triangle.cpp</itemPath>
     </logicalFolder>
     <logicalFolder name="TestFiles"
                    displayName="Test Files"
@@ -46,17 +52,29 @@
           <warningLevel>2</warningLevel>
         </ccTool>
       </compileType>
+      <item path="frame.cpp" ex="false" tool="1" flavor2="0">
+      </item>
       <item path="frame.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="line.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="line.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="main.cpp" ex="false" tool="1" flavor2="0">
       </item>
+      <item path="rectangle.cpp" ex="false" tool="1" flavor2="0">
+      </item>
       <item path="rectangle.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="shape.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="shape.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="square.cpp" ex="false" tool="1" flavor2="0">
+      </item>
       <item path="square.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="triangle.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="triangle.h" ex="false" tool="3" flavor2="0">
       </item>
@@ -81,17 +99,29 @@
           <developmentMode>5</developmentMode>
         </asmTool>
       </compileType>
+      <item path="frame.cpp" ex="false" tool="1" flavor2="0">
+      </item>
       <item path="frame.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="line.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="line.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="main.cpp" ex="false" tool="1" flavor2="0">
       </item>
+      <item path="rectangle.cpp" ex="false" tool="1" flavor2="0">
+      </item>
       <item path="rectangle.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="shape.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="shape.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="square.cpp" ex="false" tool="1" flavor2="0">
+      </item>
       <item path="square.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="triangle.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="triangle.h" ex="false" tool="3" flavor2="0">
       </item>

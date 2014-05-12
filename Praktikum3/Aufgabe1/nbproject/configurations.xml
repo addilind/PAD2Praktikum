@@ -5,6 +5,7 @@
                    displayName="Header Files"
                    projectFiles="true">
       <itemPath>bas.h</itemPath>
+      <itemPath>derived.h</itemPath>
     </logicalFolder>
     <logicalFolder name="ResourceFiles"
                    displayName="Resource Files"
@@ -13,6 +14,8 @@
     <logicalFolder name="SourceFiles"
                    displayName="Source Files"
                    projectFiles="true">
+      <itemPath>bas.cpp</itemPath>
+      <itemPath>derived.cpp</itemPath>
       <itemPath>main.cpp</itemPath>
     </logicalFolder>
     <logicalFolder name="TestFiles"
@@ -40,7 +43,13 @@
           <warningLevel>2</warningLevel>
         </ccTool>
       </compileType>
+      <item path="bas.cpp" ex="false" tool="1" flavor2="0">
+      </item>
       <item path="bas.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="derived.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="derived.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="main.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -65,7 +74,13 @@
           <developmentMode>5</developmentMode>
         </asmTool>
       </compileType>
+      <item path="bas.cpp" ex="false" tool="1" flavor2="0">
+      </item>
       <item path="bas.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="derived.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="derived.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="main.cpp" ex="false" tool="1" flavor2="0">
       </item>
