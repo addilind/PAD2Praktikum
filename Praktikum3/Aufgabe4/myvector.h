@@ -50,7 +50,7 @@ public:
         return *this;
     }
 
-    ~myVector() { //Destruktor
+    virtual ~myVector() { //Destruktor
         delete[] elem;
     }
 
@@ -63,8 +63,14 @@ public:
     }
 
     T& operator[](int n) { //Indexoperator ohne ueberpruefung
-//        if (n < 0 || sz <= n)
-//            throw std::runtime_error("myVector::operator[](), bad index");
+        if (n < 0 || sz <= n)
+            throw std::runtime_error("myVector::operator[](), bad index");
+        return elem[n];
+    }
+    
+    const T& operator[](int n) const { //Indexoperator ohne ueberpruefung
+        if (n < 0 || sz <= n)
+            throw std::runtime_error("myVector::operator[](), bad index");
         return elem[n];
     }
 
@@ -121,6 +127,16 @@ public:
     }
 
     myVec(int low, int high) : myVector<double>(high - low + 1), lb(low) { //weiterer Konstruktor
+        if(low > high){
+            throw std::runtime_error("Fehlerhafte Indizes (low groesser high)\n"); //nur noetig, wennein Vektor der Groesse 0
+        }
+    }
+    
+    myVec(const myVec& vsource): myVector<double>(vsource), lb(vsource.lb) {} //copy-konstruktor
+    
+    myVec& operator=(const myVec& vsource){
+        myVector<double>::operator=(vsource); //expliziter aufruf des zuweisungsoperators
+        lb=vsource.lb;
     }
     
     ~myVec() { //Destruktor
@@ -128,6 +144,10 @@ public:
     }
     
     double& operator[](int i) { //Indexoperator
+        return myVector<double>::operator[](i - lb);
+    }
+    
+    const double& operator[](int i) const { //Indexoperator
         return myVector<double>::operator[](i - lb);
     }
 
@@ -143,30 +163,7 @@ private:
     int lb; // lowerbound, also der untere Index
 };
 
-class myVecstd : public vector<double> {
-public:
 
-    myVecstd() : vector<double>(), lb(0) { //Standartkonstruktor
-    }
-
-    myVecstd(int low, int high) : vector<double>(high - low + 1), lb(low) { //weiterer Konstruktor
-    }
-    
-    double& operator[](int i) { //Indexoperator
-        return vector<double>::operator[](i - lb);
-    }
-
-    int lo() const { //unterer Index (der niedrigste))
-        return lb;
-    }
-
-    int hi() const { //oberer Index (der hoechste)
-        return lb + size() - 1;
-    }
-
-private:
-    int lb; // lowerbound, also der untere Index
-};
 
 #endif	/* MYVECTOR_H */
 

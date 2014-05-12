@@ -6,8 +6,8 @@
  */
 
 #include "frame.h"
-#include "square.h"
 #include "triangle.h"
+#include "circle.h"
 
 /*
  * 
@@ -22,11 +22,22 @@ int main() {
 //        R.draw(&test);
 //        Triangle T(0, 0, 10, 10, 20, 20); //test ungueltiges dreieck: ok
 //        T.draw(&test);
-        Triangle T(8, 1, 8, 5, 12, 5); //test ok
-        Line L(1,1, 5, 5);
+//        Triangle T(8, 1, 8, 5, 12, 5); //test ok
+//        Line L(1,1, 5, 5);
 //        T.draw(&test);
 //        Rectangle R(0, 1, 2, 3); // test ok
 //        R.draw(&test);
+        
+        Circle C1(15, 15, 10);
+        Circle C2(11, 11, 2);
+        Circle C3(19,11,2);
+        
+        Line L1(8, 18, 12, 20);
+        Line L2(22, 18, 18, 20);
+        Line L3(12, 20, 18, 20);
+        
+        Triangle T1(5, 15, 1, 11, 1, 19);
+        Triangle T2(25, 15, 29, 11, 29, 19);
         
         show_all_shapes(&test); // test ok
 

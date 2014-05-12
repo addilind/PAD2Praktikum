@@ -30,6 +30,7 @@ private:
     int start_y;
     int end_x;
     int end_y;
+    void set_point(int x, int y, bool fliphor, bool flipbisec, Frame* target);
 };
 
 #endif	/* LINE_H */

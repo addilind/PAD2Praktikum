@@ -30,7 +30,7 @@ public:
 
     Frame();
 
-    void put_point(size_t x, size_t y);
+    void put_point(int x, int y);
 
     void reset();
 

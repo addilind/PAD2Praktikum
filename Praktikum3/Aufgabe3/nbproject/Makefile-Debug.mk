@@ -35,12 +35,12 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 
 # Object Files
 OBJECTFILES= \
+	${OBJECTDIR}/circle.o \
 	${OBJECTDIR}/frame.o \
 	${OBJECTDIR}/line.o \
 	${OBJECTDIR}/main.o \
 	${OBJECTDIR}/rectangle.o \
 	${OBJECTDIR}/shape.o \
-	${OBJECTDIR}/square.o \
 	${OBJECTDIR}/triangle.o
 
 
@@ -68,6 +68,11 @@ ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/aufgabe3.exe: ${OBJECTFILES}
 	${MKDIR} -p ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}
 	${LINK.cc} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/aufgabe3 ${OBJECTFILES} ${LDLIBSOPTIONS}
 
+${OBJECTDIR}/circle.o: circle.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -Wall -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/circle.o circle.cpp
+
 ${OBJECTDIR}/frame.o: frame.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
@@ -92,11 +97,6 @@ ${OBJECTDIR}/shape.o: shape.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -g -Wall -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/shape.o shape.cpp
-
-${OBJECTDIR}/square.o: square.cpp 
-	${MKDIR} -p ${OBJECTDIR}
-	${RM} "$@.d"
-	$(COMPILE.cc) -g -Wall -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/square.o square.cpp
 
 ${OBJECTDIR}/triangle.o: triangle.cpp 
 	${MKDIR} -p ${OBJECTDIR}

@@ -8,7 +8,7 @@ Frame::Frame() {
     }
 };
 
-void Frame::put_point(size_t x, size_t y) { // Punkt im Frame speichern
+void Frame::put_point(int x, int y) { // Punkt im Frame speichern
     if (!on_frame(x, y)) {
         throw std::runtime_error("Punkt liegt nicht im Frame");
     }
