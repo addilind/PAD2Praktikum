@@ -51,6 +51,9 @@
           <standard>8</standard>
           <warningLevel>2</warningLevel>
         </ccTool>
+        <asmTool>
+          <warningLevel>2</warningLevel>
+        </asmTool>
       </compileType>
       <item path="circle.cpp" ex="false" tool="1" flavor2="0">
       </item>

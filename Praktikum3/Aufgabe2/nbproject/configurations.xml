@@ -4,8 +4,8 @@
     <logicalFolder name="HeaderFiles"
                    displayName="Header Files"
                    projectFiles="true">
+      <itemPath>Aufgabe2.h</itemPath>
       <itemPath>frame.h</itemPath>
-      <itemPath>line.h</itemPath>
     </logicalFolder>
     <logicalFolder name="ResourceFiles"
                    displayName="Resource Files"
@@ -14,6 +14,7 @@
     <logicalFolder name="SourceFiles"
                    displayName="Source Files"
                    projectFiles="true">
+      <itemPath>Aufgabe2.cpp</itemPath>
       <itemPath>main.cpp</itemPath>
     </logicalFolder>
     <logicalFolder name="TestFiles"
@@ -27,8 +28,6 @@
                    kind="IMPORTANT_FILES_FOLDER">
       <itemPath>Makefile</itemPath>
     </logicalFolder>
-    <itemPath>Aufgabe2.cpp</itemPath>
-    <itemPath>Aufgabe2.h</itemPath>
   </logicalFolder>
   <projectmakefile>Makefile</projectmakefile>
   <confs>
@@ -49,8 +48,6 @@
       <item path="Aufgabe2.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="frame.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="line.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="main.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -80,8 +77,6 @@
       <item path="Aufgabe2.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="frame.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="line.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="main.cpp" ex="false" tool="1" flavor2="0">
       </item>

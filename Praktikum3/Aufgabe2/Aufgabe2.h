@@ -12,13 +12,14 @@
 
 void Bresenham(Frame* target, int x1, int y1, int x2, int y2);
 
-class Line : public Frame {
+class Line {
 public:
     Line(); // Standardkonstruktor
-    Line(int sx, int sy, int ex, int ey); // ein Konstruktor
+    Line(int sx, int sy, int ex, int ey); // ein weiterer Konstruktor
 
-    void set(int sx, int sy, int ex, int ey) {
-    }
+    void set(int sx, int sy, int ex, int ey);
+    
+    void set_point(Frame* target, int x, int y, bool fliphor, bool flipbisec);
 
     void draw(Frame*); // rein virtuelles shape::draw() ueberschreiben
 

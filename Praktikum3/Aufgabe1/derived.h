@@ -31,6 +31,7 @@ public:
     Roo(string sname, string scolor, int iprice);
     string get_col() const;
     int get_price() const;
+    void set_price(int iprice);
     void print() const;
     
 private:

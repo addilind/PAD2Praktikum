@@ -5,7 +5,8 @@ Triangle::Triangle() : p1_x(0), p1_y(0), p2_x(0), p2_y(0), p3_x(0), p3_y(0), a(L
 
 //weiterer Konstruktor
 
-Triangle::Triangle(int p1x, int p1y, int p2x, int p2y, int p3x, int p3y) : p1_x(p1x), p1_y(p1y), p2_x(p2x), p2_y(p2y), p3_x(p3x), p3_y(p3y), a(Line()), b(Line()), c(Line()) {
+Triangle::Triangle(int p1x, int p1y, int p2x, int p2y, int p3x, int p3y)
+: p1_x(p1x), p1_y(p1y), p2_x(p2x), p2_y(p2y), p3_x(p3x), p3_y(p3y), a(Line()), b(Line()), c(Line()) {
     b.set(p1_x, p1_y, p3_x, p3_y);
     c.set(p2_x, p2_y, p3_x, p3_y);
     a.set(p2_x, p2_y, p1_x, p1_y);
@@ -109,35 +110,18 @@ int get_triangleheight(int line1, int line2, int line3) { //berechnet hoehe
     v.push_back(line2);
     v.push_back(line3);
     std::sort(v.begin(), v.end());
-    int a = v[0];
-    int b = v[1];
-    int c = v[2];
-
-    int a2 = std::pow(a, 2);
-    int b2 = std::pow(b, 2);
-    int c2 = std::pow(c, 2);
-
-    int a4 = std::pow(a, 4);
-    int b4 = std::pow(b, 4);
-    int c4 = std::pow(c, 4);
-
-    double h1 = std::sqrt(2 * (a2 * b2 + c2 * b2 + c2 * a2)-(a4 + b4 + c4)) / (2 * c);
-    int h = static_cast<int> (round(h1));
-    return h;
+    
+    return std::sqrt(v[1] * v[1] - std::pow(get_x(line1, line2, line3), 2));
 }
 
-int get_x(int line1, int line2, int line3) { //berechnet x wert
+int get_x(int line1, int line2, int line3) { //berechnet x wert (spitze des dreiecks ggueber der hypotenuse)
     std::vector<int> v;
     v.push_back(line1);
     v.push_back(line2);
     v.push_back(line3);
     std::sort(v.begin(), v.end());
-    int b2 = std::pow((v[0]), 2);
-    int h2 = std::pow((get_height(line1, line2, line3)), 2);
-
-    double x1 = std::sqrt(b2 - h2);
-    int x = static_cast<int> (round(x1));
-    return x;
+    
+    return (v[1] * v[1] - v[0]*v[0] + v[2] *v[2])/ (2 * v[2]);
 }
 
 int get_hypotenuse(int line1, int line2, int line3) {

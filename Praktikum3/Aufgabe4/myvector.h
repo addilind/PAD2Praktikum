@@ -62,13 +62,13 @@ public:
         return space;
     }
 
-    T& operator[](int n) { //Indexoperator ohne ueberpruefung
+    T& operator[](int n) { //Indexoperator mit ueberpruefung
         if (n < 0 || sz <= n)
             throw std::runtime_error("myVector::operator[](), bad index");
         return elem[n];
     }
     
-    const T& operator[](int n) const { //Indexoperator ohne ueberpruefung
+    const T& operator[](int n) const { //Indexoperator mit ueberpruefung
         if (n < 0 || sz <= n)
             throw std::runtime_error("myVector::operator[](), bad index");
         return elem[n];
@@ -84,7 +84,7 @@ public:
         return elem[n];
     }// sog. "Getter"
 
-    void set(int n, T v) {
+    void set(int n, T v) { //
         if (n < 0 || sz <= n)
             throw std::runtime_error("myVector::set(), bad index");
         elem[n] = v;
@@ -128,7 +128,7 @@ public:
 
     myVec(int low, int high) : myVector<double>(high - low + 1), lb(low) { //weiterer Konstruktor
         if(low > high){
-            throw std::runtime_error("Fehlerhafte Indizes (low groesser high)\n"); //nur noetig, wennein Vektor der Groesse 0
+            throw std::runtime_error("Fehlerhafte Indizes (low groesser high)\n"); //nur noetig, wenn ein Vektor der Groesse 0 erstellt wird
         }
     }
     
@@ -149,6 +149,10 @@ public:
     
     const double& operator[](int i) const { //Indexoperator
         return myVector<double>::operator[](i - lb);
+    }
+    
+    double& at(int n){
+       return myVector<double>::at(n-lb);
     }
 
     int lo() const { //unterer Index (der niedrigste)

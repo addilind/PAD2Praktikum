@@ -19,98 +19,103 @@ void Line::move(int h, int v) {// Def. der line::move() Methode
 void Line::draw(Frame* test) {
     if (!test->on_frame(start_x, start_y) || !test->on_frame(end_x, end_y)) {
         throw std::runtime_error("Die Punkte liegen nicht im Frame!\n");
-    } else {
-        int dx = (end_x - start_x); //durchschnitt
-        int dy = (end_y - start_y);
-        int xstep = 1; //Schritte
-        int ystep = 1;
-        int f; //fehler
-
-        if (dx < 0) { //wenn dx kleiner 0 ist
-            dx = -dx; //kehre die Variablen um
-            xstep = -1;
-        }
-        if (dy < 0) { //wenn dx kleiner 0 ist
-            dy = -dy; //kehre die Variablen um
-            ystep = -1;
-        }
-
-        int a = dx * 2; //Berechnen der Richtung um Fehler zu aktualisieren/regenerieren
-        int b = dy * 2;
-
-        if (dy <= dx) { //Fallunterscheidung der "Schnellen Richtung"
-            f = -dx; //Zuweisen des Fehlers
-            while (start_x < end_x || start_x > end_x) { //Solange startpunkt kleiner oder groeßer als endpunkt ist
-                test->put_point(start_x, start_y); //plotten(setzen des Punktes)
-                f = f + b; //aktualisieren des fehlers
-                if (f > b) { //Fallunterscheidung: wenn der Fehler kleiner als b
-                    start_y = start_y + ystep; //wird ein Schritt in die y Richtung gelaufen
-                    f = f - a; //der Fehler mit a aktualisiert/regeneriert, weil in y Richtung gelaufen wurde
-                }
-                start_x = start_x + xstep; //ansonsten wird in x Richtung gelaufen
-            }
-        } else {
-            f = -dy; //Zuweisen des Fehlers
-            while (start_y < end_y || start_y > end_y) {//Solange startpunkt kleiner oder groeßer als endpunkt ist
-                test->put_point(start_x, start_y); //plotten(setzen des Punktes)
-                f = f + a; //aktualisieren des fehlers
-                if (f > a) { //Fallunterscheidung: wenn der Fehler kleiner als a
-                    start_x = start_x + xstep; //wird in x richtung gelaufen
-                    f = f - b; //Der Fehler wird mit a aktualisiert/regeneriert weil in x Richtung gelaufen wurde
-                }
-                start_y = start_y + ystep; //ansonsten wird in y Richtung gelaufen
-            }
-            test->put_point(start_x, start_y); //Plotten (Setzen des Punktes)
-        }
     }
+    if(end_x < start_x){ //wenn endpunkt links von startpunkt ist, punkte umdrehen
+        int tmpx = start_x;
+        int tmpy = start_y;
+        start_x = end_x;
+        start_y = end_y;
+        end_x = tmpx;
+        end_y = tmpy;
+    }
+    int sx = start_x;
+    int sy = start_y;
+    int ex = end_x;
+    int ey = end_y;
+    
+    bool fliphor = false; //spiegeln
+    bool flipbisec = false; //spiegeln
+    
+    if(ey < sy){ //wenn endpunkt ueber startpunkt liegt, horizontal spiegeln
+        ey *= -1;
+        sy *= -1;
+        fliphor = true;
+    }
+    if((ex-sx)<(ey-sy)){ //wenn Steigung groeßer als 45° spiegeln an der Winkelhalbierenden
+        int tmp = sx;
+        sx = sy;
+        sy = tmp;
+        tmp = ex;
+        ex = ey;
+        ey = tmp;
+        flipbisec = true;
+    }
+    set_point(test, sx, sy, fliphor, flipbisec); //plotten des startpunktes
+    
+    while(sx < ex){
+        ++sx;
+        if((ey-sy)*2 > (ex-sx)){//wenn auch nach y gelaufen wird
+            ++sy;  
+        }
+        set_point(test, sx, sy, fliphor, flipbisec);        
+    }
+}
+
+void set_point_sup(Frame* target, int x, int y, bool fliphor, bool flipbisec){
+    if(flipbisec){ //wenn Steigung groeßer als 45° spiegeln an der Winkelhalbierenden
+        int tmp = x;
+        x = y;
+        y = tmp;
+    }
+    if(fliphor){ //wenn endpunkt ueber startpunkt liegt, horizontal spiegeln
+        y *= -1;
+    }
+    target->put_point(x,y);
 }
 
 void Bresenham(Frame* test, int start_x, int start_y, int end_x, int end_y)
 {
-    if (!test->on_frame(start_x, start_y) || !test->on_frame(end_x, end_y)) {
+   if (!test->on_frame(start_x, start_y) || !test->on_frame(end_x, end_y)) {
         throw std::runtime_error("Die Punkte liegen nicht im Frame!\n");
-    } else {
-        int dx = (end_x - start_x); //durchschnitt
-        int dy = (end_y - start_y);
-        int xstep = 1; //Schritte
-        int ystep = 1;
-        int f; //fehler
-
-        if (dx < 0) { //wenn dx kleiner 0 ist
-            dx = -dx; //kehre die Variablen um
-            xstep = -1;
+    }
+    if(end_x < start_x){ //wenn endpunkt links von startpunkt ist, punkte umdrehen
+        int tmpx = start_x;
+        int tmpy = start_y;
+        start_x = end_x;
+        start_y = end_y;
+        end_x = tmpx;
+        end_y = tmpy;
+    }
+    int sx = start_x;
+    int sy = start_y;
+    int ex = end_x;
+    int ey = end_y;
+    
+    bool fliphor = false; //spiegeln
+    bool flipbisec = false; //spiegeln
+    
+    if(ey < sy){ //wenn endpunkt ueber startpunkt liegt, horizontal spiegeln
+        ey *= -1;
+        sy *= -1;
+        fliphor = true;
+    }
+    if((ex-sx)<(ey-sy)){ //wenn Steigung groeßer als 45° spiegeln an der Winkelhalbierenden
+        int tmp = sx;
+        sx = sy;
+        sy = tmp;
+        tmp = ex;
+        ex = ey;
+        ey = tmp;
+        flipbisec = true;
+    }
+    set_point_sup(test, sx, sy, fliphor, flipbisec); //plotten des startpunktes
+    
+    while(sx < ex){
+        ++sx;
+        if((ey-sy)*2 > (ex-sx)){//wenn auch nach y gelaufen wird
+            ++sy;  
         }
-        if (dy < 0) { //wenn dx kleiner 0 ist
-            dy = -dy; //kehre die Variablen um
-            ystep = -1;
-        }
-
-        int a = dx * 2; //Berechnen der Richtung um Fehler zu aktualisieren/regenerieren
-        int b = dy * 2;
-
-        if (dy <= dx) { //Fallunterscheidung der "Schnellen Richtung"
-            f = -dx; //Zuweisen des Fehlers
-            while (start_x < end_x || start_x > end_x) { //Solange startpunkt kleiner oder groeßer als endpunkt ist
-                test->put_point(start_x, start_y); //plotten(setzen des Punktes)
-                f = f + b; //aktualisieren des fehlers
-                if (f > b) { //Fallunterscheidung: wenn der Fehler kleiner als b
-                    start_y = start_y + ystep; //wird ein Schritt in die y Richtung gelaufen
-                    f = f - a; //der Fehler mit a aktualisiert/regeneriert, weil in y Richtung gelaufen wurde
-                }
-                start_x = start_x + xstep; //ansonsten wird in x Richtung gelaufen
-            }
-        } else {
-            f = -dy; //Zuweisen des Fehlers
-            while (start_y < end_y || start_y > end_y) {//Solange startpunkt kleiner oder groeßer als endpunkt ist
-                test->put_point(start_x, start_y); //plotten(setzen des Punktes)
-                f = f + a; //aktualisieren des fehlers
-                if (f > a) { //Fallunterscheidung: wenn der Fehler kleiner als a
-                    start_x = start_x + xstep; //wird in x richtung gelaufen
-                    f = f - b; //Der Fehler wird mit a aktualisiert/regeneriert weil in x Richtung gelaufen wurde
-                }
-                start_y = start_y + ystep; //ansonsten wird in y Richtung gelaufen
-            }
-            test->put_point(start_x, start_y); //Plotten (Setzen des Punktes)
-        }
+        set_point_sup(test, sx, sy, fliphor, flipbisec);        
     }
 }
+

@@ -19,7 +19,7 @@ void Line::draw(Frame* test) {
     if (!test->on_frame(start_x, start_y) || !test->on_frame(end_x, end_y)) {
         throw std::runtime_error("Die Punkte liegen nicht im Frame!\n");
     }
-    if(end_x < start_x){ //wenn endpunkt links von startpunkt ist, punkte umdrehen
+    if (end_x < start_x) { //wenn endpunkt links von startpunkt ist, punkte umdrehen
         int tmpx = start_x;
         int tmpy = start_y;
         start_x = end_x;
@@ -31,16 +31,16 @@ void Line::draw(Frame* test) {
     int sy = start_y;
     int ex = end_x;
     int ey = end_y;
-    
+
     bool fliphor = false; //spiegeln
     bool flipbisec = false; //spiegeln
-    
-    if(ey < sy){ //wenn endpunkt ueber startpunkt liegt, horizontal spiegeln
+
+    if (ey < sy) { //wenn endpunkt ueber startpunkt liegt, horizontal spiegeln
         ey *= -1;
         sy *= -1;
         fliphor = true;
     }
-    if((ex-sx)<(ey-sy)){ //wenn Steigung groeßer als 45° spiegeln an der Winkelhalbierenden
+    if ((ex - sx)<(ey - sy)) { //wenn Steigung groeßer als 45° spiegeln an der Winkelhalbierenden
         int tmp = sx;
         sx = sy;
         sy = tmp;
@@ -50,30 +50,30 @@ void Line::draw(Frame* test) {
         flipbisec = true;
     }
     set_point(sx, sy, fliphor, flipbisec, test); //plotten des startpunktes
-    double error = static_cast<double>(ex-sx)/2.0;
-	double dy = static_cast<double>(ey-sy);
-	double dx = static_cast<double>(ex-sx);
-    while(sx < ex){
+    double error = static_cast<double> (ex - sx) / 2.0;
+    double dy = static_cast<double> (ey - sy);
+    double dx = static_cast<double> (ex - sx);
+    while (sx < ex) {
         ++sx;
-		error -= dy;
-        if(error < 0){//wenn auch nach y gelaufen wird
-            ++sy;  
-			error += dx;
+        error -= dy; //Fehler aktualisieren mit -dy (Fehler wird mit jedem schritt nach x kleiner)
+        if (error < 0) {//wenn fehler kleiner 0 wird nach y gelaufen wird
+            ++sy;
+            error += dx; //Fehler aktualisieren mit +dx,
         }
-        set_point(sx, sy, fliphor, flipbisec, test);        
+        set_point(sx, sy, fliphor, flipbisec, test);
     }
 }
 
-void Line::set_point(int x, int y, bool fliphor, bool flipbisec, Frame* target){
-    if(flipbisec){ //wenn Steigung groeßer als 45° spiegeln an der Winkelhalbierenden
+void Line::set_point(int x, int y, bool fliphor, bool flipbisec, Frame* target) {
+    if (flipbisec) { //wenn Steigung groeßer als 45° spiegeln an der Winkelhalbierenden
         int tmp = x;
         x = y;
         y = tmp;
     }
-    if(fliphor){ //wenn endpunkt ueber startpunkt liegt, horizontal spiegeln
+    if (fliphor) { //wenn endpunkt ueber startpunkt liegt, horizontal spiegeln
         y *= -1;
     }
-    target->put_point(x,y);
+    target->put_point(x, y);
 }
 
 void Line::move(int h, int v) {// Def. der line::move() Methode

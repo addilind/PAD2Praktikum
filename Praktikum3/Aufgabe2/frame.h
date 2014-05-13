@@ -8,7 +8,6 @@
 #ifndef FRAME_H
 #define	FRAME_H
 
-#include <array>
 #include <stdexcept>
 #include <iostream>
 #include <ctime>
@@ -55,7 +54,6 @@ public:
     void show(std::ostream& target = std::cout) const { // Frame auf die Konsole ausgeben (formatiert))
         clock_t start(0);
         clock_t end(0);
-        double s(0.0);
         start = clock();
         for (size_t i(0U); i < xMax; i++) { //Jede Zeile durchgehen
             for (size_t j(0U); j < yMax; j++) { //Jedes Zeichen durchgehen
@@ -66,8 +64,7 @@ public:
         end = clock();
         if (start != -1 && end != -1) {
             start = end - start;
-            s = start / CLOCKS_PER_SEC;
-            target << "\t\t[ " << start << "clicks == " << s << "s ]" << endl;
+            target << "\t\t[ " << start << "] ticks" << endl;
         } else
             throw std::runtime_error("clock() fehlgeschlagen");
     }
@@ -75,7 +72,6 @@ public:
     void show_unf() const { // Frame auf die Konsole ausgeben (unformatiert)
         clock_t start(0);
         clock_t end(0);
-        double s(0.0);
         start = clock();
         for (size_t i(0U); i < xMax; i++) { //Jede Zeile durchgehen
             for (size_t j(0U); j < yMax; j++) { //Jedes Zeichen durchgehen
@@ -86,31 +82,27 @@ public:
         end = clock();
         if (start != -1 && end != -1) {
             start = end - start;
-            s = start / CLOCKS_PER_SEC;
-            cout << "\t\t[ " << start << "clicks == " << s << "s ]" << endl;
+            cout << "\t\t[ " << start << "] ticks" << endl;
         } else
             throw std::runtime_error("clock() fehlgeschlagen");
     }
 
-    bool on_frame(int x, int y) const;
-    
-    std::ostream& operator<< (std::ostream& target)
-    {
+    bool on_frame(int x, int y) const {
+        if (x > xMax || y > yMax) {
+            return false;
+        }
+        if (x < 0 || y < 0) {
+            return false;
+        }
+        return true;
+    }
+
+    std::ostream& operator<<(std::ostream& target) {
         show(target);
         return target;
     }
 private:
     char frame[xMax][yMax];
 };
-
-bool Frame::on_frame(int x, int y) const {
-    if (x > xMax || y > yMax) {
-        return false;
-    }
-    if (x < 0 || y < 0) {
-        return false;
-    }
-    return true;
-}
 #endif	/* FRAME_H */
 

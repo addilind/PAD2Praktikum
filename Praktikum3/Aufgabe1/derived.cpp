@@ -39,6 +39,13 @@ void Pro::print() const {
 Roo::Roo() : color("default"), price(0){
 }
 
+void Roo::set_price(int iprice){
+    if (iprice < 0) {
+        throw std::runtime_error("ungueltiges Alter!\n");
+    }
+    price=iprice;
+}
+
 Roo::Roo(string sname, string scolor, int iprice) : Bas(sname), color(scolor), price(iprice) {
     if(price < 0){
         throw std::runtime_error("ungueltiger Preis!\n");
