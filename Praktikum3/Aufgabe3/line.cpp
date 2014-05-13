@@ -50,11 +50,15 @@ void Line::draw(Frame* test) {
         flipbisec = true;
     }
     set_point(sx, sy, fliphor, flipbisec, test); //plotten des startpunktes
-    
+    double error = static_cast<double>(ex-sx)/2.0;
+	double dy = static_cast<double>(ey-sy);
+	double dx = static_cast<double>(ex-sx);
     while(sx < ex){
         ++sx;
-        if((ey-sy)*2 > (ex-sx)){//wenn auch nach y gelaufen wird
+		error -= dy;
+        if(error < 0){//wenn auch nach y gelaufen wird
             ++sy;  
+			error += dx;
         }
         set_point(sx, sy, fliphor, flipbisec, test);        
     }

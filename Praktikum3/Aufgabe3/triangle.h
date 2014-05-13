@@ -15,9 +15,9 @@
 #include "math.h"
 #include <cmath>
 
-bool proof_Triangle(int, int, int, int, int, int);
+bool proof_triangle(int, int, int, int, int, int);
 bool proof_length(int, int, int);
-int get_height(int, int, int);
+int get_triangleheight(int, int, int);
 int get_x(int, int, int);
 int get_hypotenuse(int, int, int);
 
