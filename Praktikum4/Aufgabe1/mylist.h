@@ -160,6 +160,7 @@ public:
     //-----Iterator-----
 
     class myIterator {
+    private:
         myNode<Elem>* curr; // der aktuelle Knoten
     public:
 
@@ -183,14 +184,37 @@ public:
         (const myList<Elem>::myIterator& other) const {
             return curr != other.curr;
         }
-        myNode<Elem>* _curr() const; // zum Debuggen
+
+        myNode<Elem>* get_curr() const { // zum Debuggen
+            return curr;
+        }
+
+        myIterator begin();
+        myIterator end(); // liefert myIterator auf "eins hinter letztem Element"
+        myIterator find(myIterator, myIterator, const Elem&); // finden
+        myIterator insert(myIterator, const Elem&); // einfuegen
+        myIterator erase(myIterator);
+
     };
 
-    myIterator begin(); // Methode, die myIterator auf erstes Element liefert
-    myIterator end(); // liefert myIterator auf "eins hinter letztem Element"
-    myIterator find(myIterator, myIterator, const Elem&); // finden
-    myIterator insert(myIterator, const Elem&); // einfuegen
-    myIterator erase(myIterator);
+    myIterator myIterator::begin() { // Methode, die myIterator auf erstes Element liefert
+        curr = first;
+    }
+    myIterator myIterator::end(){ // liefert myIterator auf "eins hinter letztem Element"
+        curr = end;
+    }
+    myIterator myIterator::find(myIterator begin, myIterator end, const Elem&){ // finden
+        if(begin == end){ //Liste leer
+            return;
+        }
+        
+    }
+    myIterator myIterator::insert(myIterator, const Elem&){ // einfuegen
+        
+    }
+    myIterator myIterator::erase(myIterator){
+        
+    }
 };
 
 
