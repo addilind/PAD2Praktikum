@@ -21,6 +21,15 @@ using std::ofstream;
 /*
  * 
  */
+template<class T> string toString(T t) {
+    std::stringstream stst;
+    stst << t;
+    return stst.str();
+}
+bool checkTrue( bool condition, string description, bool silent=false )
+void printTestResult(bool successful, string testType, string description, string expected = "", string actual = "");
+bool checkEquals(string exp, string act, string description, bool silent = false);
+
 int main() {
     try {
         string dateiname = "cicero.txt"; //Einen String mit dem Namen dateiname deklarieren und mit dem dateinamen initialisieren
@@ -63,3 +72,21 @@ int main() {
     }
 }
 
+void printTestResult(bool successful, string testType, string description, string expected = "", string actual = "") {
+    if (!successful) cout << "FAILED test ";
+    else cout << "  succeeded test ";
+    cout << testType << '(' << description << ')';
+    cout << ", expected: " << expected;
+    cout << ", actual: " << actual << endl;
+}
+
+bool checkEquals(string exp, string act, string description, bool silent = false) {
+    bool result(exp == act);
+    if (!silent) printTestResult(result, "checkEquals", description, exp, act);
+    return result;
+}
+
+bool checkTrue( bool condition, string description, bool silent=false ) {
+if( !silent ) printTestResult(condition, "checkTrue", description );
+return condition; 
+}
