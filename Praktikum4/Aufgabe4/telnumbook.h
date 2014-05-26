@@ -24,7 +24,7 @@ public:
     void sort_by_name();
     void sort_by_location();
     
-    TelnumBook search_lname(string slname);
+    TelnumBook search_name(string slname);
     
 };
 

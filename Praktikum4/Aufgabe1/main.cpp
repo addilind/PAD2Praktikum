@@ -24,13 +24,13 @@ int main() {
         bool exit(false);
         std::srand(std::time(0));
         while (!exit) {
-            cout << endl << " 1: Zufallszahl am Stackanfang hinzufuegen" << endl;
-            cout << endl << " 2: Zufallszahl am Stackende hinzufuegen" << endl;
-            cout << endl << " 3: Zufallszahl vom Stackanfang loeschen" << endl;
-            cout << endl << " 4: Zufallszahl vom Stackende loeschen" << endl;
-            cout << endl << " 5: Zufallszahl irgendwo im Stack einfuegen" << endl;
-            cout << endl << " 6: Zufallszahl irgendwo im Stack loeschen" << endl;
-            cout << endl << " 7: Stack ausgeben" << endl;
+            cout << endl << " 1: Zufallszahl am Listenanfang hinzufuegen" << endl;
+            cout << endl << " 2: Zufallszahl am Listenende hinzufuegen" << endl;
+            cout << endl << " 3: Zufallszahl vom Listenanfang loeschen" << endl;
+            cout << endl << " 4: Zufallszahl vom Listenende loeschen" << endl;
+            cout << endl << " 5: Zufallszahl irgendwo in Liste einfuegen" << endl;
+            cout << endl << " 6: Zufallszahl irgendwo in Liste loeschen" << endl;
+            cout << endl << " 7: Liste ausgeben" << endl;
             cout << endl << " 0: Programm beenden" << endl;
             cin >> input;
             if (!cin) throw std::runtime_error("Inkorrekte Eingabe!");
@@ -41,17 +41,16 @@ int main() {
                 case 6:
                     mylist.print();
                     cout << "An welcher Stelle wollen Sie eine Zufallszahl loeschen?";
-                    cin >> index;
+                    cin >> input;
                     if (!cin) throw std::runtime_error("Inkorrekte Eingabe!");
-                    mylist.del(index);
+                    mylist.del(input);
                     break;
                 case 5:
-                    int index;
                     mylist.print();
-                    cout << "An welcher Stelle wollen Sie eine Zufallszahl einfuegen?";
-                    cin >> index;
+                    cout << "An welcher Stelle wollen Sie eine Zufallszahl einfuegen? ";
+                    cin >> input;
                     if (!cin) throw std::runtime_error("Inkorrekte Eingabe!");
-                    mylist.ins(index, std::rand() % 1000);
+                    mylist.ins(input, std::rand() % 1000);
                     break;
                 case 4:
                     cout << "Geloeschter Wert war: " << mylist.pop_back() << endl;

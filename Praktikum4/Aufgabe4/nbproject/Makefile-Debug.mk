@@ -67,17 +67,17 @@ ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/aufgabe4.exe: ${OBJECTFILES}
 ${OBJECTDIR}/main.o: main.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -g -Wall -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/main.o main.cpp
+	$(COMPILE.cc) -g -Wall -std=c++98 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/main.o main.cpp
 
 ${OBJECTDIR}/telnum.o: telnum.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -g -Wall -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/telnum.o telnum.cpp
+	$(COMPILE.cc) -g -Wall -std=c++98 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/telnum.o telnum.cpp
 
 ${OBJECTDIR}/telnumbook.o: telnumbook.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -g -Wall -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/telnumbook.o telnumbook.cpp
+	$(COMPILE.cc) -g -Wall -std=c++98 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/telnumbook.o telnumbook.cpp
 
 # Subprojects
 .build-subprojects:

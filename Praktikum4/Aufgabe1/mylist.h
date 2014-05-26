@@ -27,6 +27,7 @@ public:
     }
 
     ~myList() { //Destruktor
+
         myNode<Elem>* dp = first; //deklariert einen Zeiger namens dp und inititalisiert diesen mit dem ersten element
         myNode<Elem>* tmp = 0; //deklariert einen Zeiger namens tmp und inititalisiert diesen mit 0
         while (dp != last) { //solange der Zeiger dp nicht auf das letzte element der liste zeigt
@@ -105,52 +106,69 @@ public:
     Elem del(int index) {//del-Methode (beliebigen Knoten loeschen)
         if (first == last) {
             throw std::runtime_error("Liste ist leer!\n");
-        } // Liste ist schon leer
-        std::list<myList*>::iterator iter;
-        for (iter = first; iter != last; ++iter) {
-            if (iter == index) {
-                myNode<Elem>* tmp = iter->pre; //deklariert einen Zeiger namens tmp und initialisiert diesen mit dem Zeiger, der auf das Element vor dem ersten Zeigt
-                Elem deleted = iter->suc->val;
-                if (tmp == last) { //wenn tmp das letzte Element in der Liste ist
-                    iter->suc = 0; //initialisiert den Zeiger, der hinter das erste element zeigt mit 0
-                    last = iter; //das letzte element ist nun das erste in der liste       
-                } else if (tmp == first) {
-                    iter->pre = 0; //initialisiert den Zeiger, der hinter das erste element zeigt mit 0
-                    first = iter; //das letzte element ist nun das erste in der liste  
-                } else {
-                    iter->suc = iter->suc->suc; //weise dem Zeiger, der auf das element nach dem ersten Element zeigt, den Zeiger zu, der auf das element zeigt, welches nach dem kommt, das nach dem ersten element kommt.
-                    iter->suc->pre = iter->pre; //weise dem Zeiger, der auf das ELemtn zeigt, welches vor dem kommt, 
-                }
-                delete tmp; //lösche tmp wieder
-                return deleted;
-            }
+        } // Liste ist schon leer  
+        myNode<Elem>* pelem = first;
+        for (; index > 0 && pelem != last; --index);
+        pelem = pelem->suc;
+
+        if (pelem == last)
+            throw std::runtime_error("Ungueltiger Index");
+        //pelem zeigt auf zu loeschendes Elem
+        return del(pelem);
+    }
+
+    Elem del(myNode<Elem>* pelem) {
+        Elem deleted = pelem->val;
+
+        if (pelem->pre == 0) // pelem == first
+        {
+            pelem->suc->pre = 0;
+            first = pelem->suc;
+        } else {
+            pelem->pre->suc = pelem->suc;
+            pelem->suc->pre = pelem->pre;
         }
-        //Liste durchzaehlen bis zum gewünschten Index
-        // myNode<Elem>* tmp = index->pre; //deklariert einen Zeiger namens tmp und initialisiert diesen mit dem Zeiger, der auf das Element vor dem ersten Zeigt
-        //Elem deleted = index->pre->suc->val;
+        delete pelem;
+        return deleted;
     }
 
     void ins(int index, const Elem& v) { //ins-Methode (beliebigen Knoten einfuegen)
-        myNode<Elem> nn = new myNode<Elem>;
-        nn->val = v;
-        if (first == last) {// Liste ist leer, d.h. erster Knoten wird eingefuegt
-            first = nn; //initialisiert das erste Element der liste mit nn
-            last->pre = first; //initialisiert den Zeiger, der auf das Element vor dem ersten ELemtn zeigt mit dem ersten Element
-            first->suc = last; //initialisiert den Zeiger, der auf das Element nach dem ersten Element zeigt, mit dem letzten Element
-        } else {
-            //Liste bis zum gewünschten Index durchzaehlen
-            //nn->suc = Zeiger auf Index->suc
-            //nn->pre = Zeiger auf Index
-            //index->suc->pre = nn
-            //INdex->suc = nn;
+
+        myNode<Elem>* pelem = first;
+        for (; index > 0 && pelem->suc != 0; --index) {
+            pelem = pelem->suc;
         }
+
+        if (index > 0) {
+            throw std::runtime_error("Ungueltiger Index");
+        }
+        ins(pelem, v);
+    }
+
+    myNode<Elem>* ins(myNode<Elem>* pelem, const Elem& v) {
+        if (pelem == 0)
+            throw std::runtime_error("Ungueltiger Pointer");
+        myNode<Elem>* nn = new myNode<Elem>;
+        nn->val = v;
+
+        nn->suc = pelem;
+        nn->pre = pelem->pre;
+
+        if (pelem == first) {
+            first = nn;
+            pelem->pre = nn;
+        } else {
+            nn->suc->pre = nn;
+            nn->pre->suc = nn;
+        }
+        return nn;
     }
 
     void print() {
-        if (first->suc == last) {
-            std::cout << "Stack is empty!" << std::endl;
+        if (first == last) {
+            std::cout << "Liste ist leer!" << std::endl;
         }
-        myNode<Elem>* tmp(first->suc);
+        myNode<Elem>* tmp(first);
         while (tmp != last) {
             std::cout << "Aktueller Wert im Knoten: " << tmp->val << std::endl;
             tmp = tmp->suc;
@@ -171,9 +189,26 @@ public:
         explicit myIterator(myNode<Elem>* p)
         : curr(p) {
         }
-        myIterator& operator++();
-        myIterator& operator--(); // Container ist doppelt verkettete Liste
-        Elem& operator*();
+
+        myIterator& operator++() {
+            if (curr == 0)
+                throw std::runtime_error("Ungueltiger Iterator");
+            curr = curr->suc;
+            return *this;
+        }
+
+        myIterator& operator--() {
+            if (curr == 0)
+                throw std::runtime_error("Ungueltiger Iterator");
+            curr = curr->pre;
+            return *this;
+        }
+
+        Elem& operator*() {
+            if (curr == 0)
+                throw std::runtime_error("Ungueltiger Iterator");
+            return *curr;
+        }
 
         bool operator==
         (const myList<Elem>::myIterator& other) const {
@@ -189,31 +224,28 @@ public:
             return curr;
         }
 
-        myIterator begin();
-        myIterator end(); // liefert myIterator auf "eins hinter letztem Element"
-        myIterator find(myIterator, myIterator, const Elem&); // finden
-        myIterator insert(myIterator, const Elem&); // einfuegen
-        myIterator erase(myIterator);
-
+        void invalidate() {
+            curr = 0;
+        }
     };
 
-    myIterator myIterator::begin() { // Methode, die myIterator auf erstes Element liefert
-        curr = first;
+    myIterator begin() { // Methode, die myIterator auf erstes Element liefert
+        return myIterator(first);
     }
-    myIterator myIterator::end(){ // liefert myIterator auf "eins hinter letztem Element"
-        curr = end;
+
+    myIterator end() { // liefert myIterator auf "eins hinter letztem Element"
+        return myIterator(last);
     }
-    myIterator myIterator::find(myIterator begin, myIterator end, const Elem&){ // finden
-        if(begin == end){ //Liste leer
-            return;
-        }
-        
+
+    myIterator insert(myIterator iter, const Elem& elem) { // einfuegen
+        return myIterator(ins(iter.get_curr(), elem));
     }
-    myIterator myIterator::insert(myIterator, const Elem&){ // einfuegen
-        
-    }
-    myIterator myIterator::erase(myIterator){
-        
+
+    myIterator erase(myIterator iter) {
+        myIterator afterDeleted = ++(myIterator(iter));
+        del(iter.get_curr());
+        iter.invalidate();
+        return afterDeleted;
     }
 };
 

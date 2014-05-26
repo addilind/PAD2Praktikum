@@ -23,32 +23,35 @@ using std::ofstream;
  */
 int main() {
     try {
-        string dateiname = "Ruebezahl"; //Einen String mit dem Namen dateiname deklarieren und mit dem dateinamen initialisieren
-        string dateinameout = "p5a2";
-        ifstream input(dateiname.c_str(), std::ios::binary);
+        string dateiname = "cicero.txt"; //Einen String mit dem Namen dateiname deklarieren und mit dem dateinamen initialisieren
+        string dateinameout = "p5a2.txt";
+        ifstream input(dateiname.c_str());
         if (!input) {
             throw std::runtime_error("Fehler!\n");
         }
-std:
-        std::map<string, int> ms;
+        std::map<string, int> mwordliste; //Speichert die Strings mit ihrer haeufigkeit
+        std::multimap<int, string> msort; //Speichert die Strings sortiert auh wenn ehrere shluessel gleih
         string word = "";
-        
-        char cinput = ' ';
-        while (input.read(&cinput, sizeof (char))) {
-            //solange chars im vector speichern bis leerzeichen kommt
-            if (cinput != ' ') {
-                word += cinput; //chars in word summieren
-                ++ms[word]; //Alle Chars in Map ablegen
-                ofstream outfile(dateinameout.c_str(), std::ios::app);
-                if (!outfile) throw std::runtime_error("Kein Schreibzugriff auf die Datei!");
-            } else { //ansonsten weiter einzelne zeichen
-                input.read(&cinput, sizeof (char));
+
+        while (input) {
+            input >> word;
+            std::map<string, int>::iterator eintrag = mwordliste.find(word);
+            if (eintrag == mwordliste.end()) {
+                mwordliste.insert(std::pair<string, int>(word, 1));
+            } else {
+                ++(eintrag->second);
             }
         }
-//        typedef std::map<string, int>::const_iterator Iter; //Ausgabe der Map
-//        for (Iter p = ms.begin(); p != ms.end(); ++p) {
-//            cout << p->first << ':' << p->second << '\n';
-//        }
+        for (std::map<string, int>::iterator iter(mwordliste.begin());
+                iter != mwordliste.end(); ++iter) {
+            msort.insert(std::pair<int, string>(iter->second, iter->first));
+        }
+        ofstream outfile(dateinameout.c_str());
+        if (!outfile) throw std::runtime_error("Kein Schreibzugriff auf die Datei!");
+        for (std::multimap<int, string>::iterator iter(msort.begin()); iter != msort.end(); ++iter) {
+            cout << iter->first << " " << iter->second << endl;
+            outfile << iter->first << " " << iter->second << endl;
+        }
         return 0;
 
     } catch (std::exception& e) {
