@@ -24,14 +24,14 @@ int main() {
         bool exit(false);
         std::srand(std::time(0));
         while (!exit) {
-            cout << endl << " 1: Zufallszahl am Listenanfang hinzufuegen" << endl;
-            cout << endl << " 2: Zufallszahl am Listenende hinzufuegen" << endl;
-            cout << endl << " 3: Zufallszahl vom Listenanfang loeschen" << endl;
-            cout << endl << " 4: Zufallszahl vom Listenende loeschen" << endl;
-            cout << endl << " 5: Zufallszahl irgendwo in Liste einfuegen" << endl;
-            cout << endl << " 6: Zufallszahl irgendwo in Liste loeschen" << endl;
-            cout << endl << " 7: Liste ausgeben" << endl;
-            cout << endl << " 0: Programm beenden" << endl;
+            cout << " 1: Zufallszahl am Listenanfang hinzufuegen" << endl;
+            cout << " 2: Zufallszahl am Listenende hinzufuegen" << endl;
+            cout << " 3: Zahl vom Listenanfang loeschen" << endl;
+            cout << " 4: Zahl vom Listenende loeschen" << endl;
+            cout << " 5: Zufallszahl irgendwo in Liste einfuegen" << endl;
+            cout << " 6: Zahl irgendwo in Liste loeschen" << endl;
+            cout << " 7: Liste ausgeben" << endl;
+            cout << " 0: Programm beenden" << endl << " ";
             cin >> input;
             if (!cin) throw std::runtime_error("Inkorrekte Eingabe!");
             switch (input) {
@@ -68,7 +68,7 @@ int main() {
                     exit = true;
                     break;
                 default:
-                    throw std::runtime_error("Inkorrekte Eingabe!");
+                    cout << "Inkorrekte Eingabe!";
                     break;
             }
             cout << endl;

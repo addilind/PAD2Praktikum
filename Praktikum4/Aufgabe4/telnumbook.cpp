@@ -90,3 +90,19 @@ TelnumBook TelnumBook::search_name(string slname) {
     }
     return result;
 }
+
+
+void TelnumBook::save_to(std::ofstream& target){
+    for(TelnumBook::iterator it = begin(); it != end(); ++it)
+    {
+        it->save_to(target);
+    }
+}
+TelnumBook TelnumBook::read_from(std::ifstream& source){
+    TelnumBook result;
+    while(source)
+    {
+        result.push_back(Telnum::read_from(source));
+    }
+    return result;
+}

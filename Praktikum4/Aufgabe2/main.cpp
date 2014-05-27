@@ -18,45 +18,47 @@ using std::cout;
 using std::ifstream;
 using std::ofstream;
 
-/*
- * 
- */
-template<class T> string toString(T t) {
-    std::stringstream stst;
-    stst << t;
-    return stst.str();
+std::map<string, int> generiereWortliste(ifstream& input)
+{
+    string word = "";
+    std::map<string, int> mwordliste;
+    while (input) {
+        input >> word;
+        std::map<string, int>::iterator eintrag = mwordliste.find(word);
+        if (eintrag == mwordliste.end()) {
+            mwordliste.insert(std::pair<string, int>(word, 1));
+        } else {
+            ++(eintrag->second);
+        }
+    }
+    return mwordliste;
 }
-bool checkTrue( bool condition, string description, bool silent=false )
-void printTestResult(bool successful, string testType, string description, string expected = "", string actual = "");
-bool checkEquals(string exp, string act, string description, bool silent = false);
+
+void flipCopy(std::map<string, int>::iterator begin,
+        const std::map<string, int>::iterator& end,
+        std::multimap<int, string>& target)
+{
+    for (; begin != end; ++begin) {
+        target.insert(std::pair<int, string>(begin->second, begin->first));
+    }
+}
 
 int main() {
     try {
-        string dateiname = "cicero.txt"; //Einen String mit dem Namen dateiname deklarieren und mit dem dateinamen initialisieren
+        string dateiname = "cicero.txt"; //Einen String mit dem Namen "dateiname" deklarieren und mit dem Dateinamen initialisieren
         string dateinameout = "p5a2.txt";
         ifstream input(dateiname.c_str());
         if (!input) {
-            throw std::runtime_error("Fehler!\n");
+            throw std::runtime_error("Kann Datei nicht oeffnen!\n");
         }
-        std::map<string, int> mwordliste; //Speichert die Strings mit ihrer haeufigkeit
-        std::multimap<int, string> msort; //Speichert die Strings sortiert auh wenn ehrere shluessel gleih
-        string word = "";
+        std::map<string, int> mwordliste = generiereWortliste(input); //Speichert die Strings mit ihrer Haeufigkeit
+        input.close();
+        std::multimap<int, string> msort; //Speichert die Strings sortiert nach Haufigkeit (beachte: evtl doppelte schluessel)
+        
+        flipCopy(mwordliste.begin(), mwordliste.end(), msort);
 
-        while (input) {
-            input >> word;
-            std::map<string, int>::iterator eintrag = mwordliste.find(word);
-            if (eintrag == mwordliste.end()) {
-                mwordliste.insert(std::pair<string, int>(word, 1));
-            } else {
-                ++(eintrag->second);
-            }
-        }
-        for (std::map<string, int>::iterator iter(mwordliste.begin());
-                iter != mwordliste.end(); ++iter) {
-            msort.insert(std::pair<int, string>(iter->second, iter->first));
-        }
         ofstream outfile(dateinameout.c_str());
-        if (!outfile) throw std::runtime_error("Kein Schreibzugriff auf die Datei!");
+        if (!outfile) throw std::runtime_error("Kann Ausgabedatei nicht oeffnen!");
         for (std::multimap<int, string>::iterator iter(msort.begin()); iter != msort.end(); ++iter) {
             cout << iter->first << " " << iter->second << endl;
             outfile << iter->first << " " << iter->second << endl;
@@ -70,23 +72,4 @@ int main() {
         cerr << "Unbekannte Ausnahme: " << endl;
         return -1;
     }
-}
-
-void printTestResult(bool successful, string testType, string description, string expected = "", string actual = "") {
-    if (!successful) cout << "FAILED test ";
-    else cout << "  succeeded test ";
-    cout << testType << '(' << description << ')';
-    cout << ", expected: " << expected;
-    cout << ", actual: " << actual << endl;
-}
-
-bool checkEquals(string exp, string act, string description, bool silent = false) {
-    bool result(exp == act);
-    if (!silent) printTestResult(result, "checkEquals", description, exp, act);
-    return result;
-}
-
-bool checkTrue( bool condition, string description, bool silent=false ) {
-if( !silent ) printTestResult(condition, "checkTrue", description );
-return condition; 
 }

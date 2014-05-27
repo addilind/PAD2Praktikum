@@ -13,13 +13,13 @@ using std::cerr;
 using std::endl;
 
 template<class T, class U>
-std::vector<T> multiply(std::vector<T> vt, std::vector<U> vu) {
+std::vector<T> multiply(const std::vector<T>& vt, const std::vector<U>& vu) {
     if (vu.size() != vt.size()) {
-        throw std::runtime_error("Ungueltige Vektoren!");
+        throw std::runtime_error("Ungueltige Vektorgroessen!");
     }
     std::vector<T> result;
-    typename std::vector<U>::iterator right = vu.begin();
-    for (typename std::vector<T>::iterator left = vt.begin();
+    typename std::vector<U>::const_iterator right = vu.begin();
+    for (typename std::vector<T>::const_iterator left = vt.begin();
             left != vt.end();
             ++left) {
         result.push_back((*left) * (*right));
@@ -29,10 +29,10 @@ std::vector<T> multiply(std::vector<T> vt, std::vector<U> vu) {
 }
 
 template<class T, class U>
-T sumprod(std::vector<T> vt, std::vector<U> vu, T init = T()) {
+T sumprod(const std::vector<T>& vt, const std::vector<U>& vu, const T& init = T()) {
     T sum = init;
     std::vector<T> products = multiply(vt, vu);
-    for (typename std::vector<T>::iterator iter = products.begin(); iter != products.end(); ++iter) {
+    for (typename std::vector<T>::const_iterator iter = products.begin(); iter != products.end(); ++iter) {
         sum = (sum + *iter);
     }
     return sum;

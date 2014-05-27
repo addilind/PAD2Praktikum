@@ -9,6 +9,7 @@
 #define	TELNUMBOOK_H
 
 #include <vector>
+#include <fstream>
 #include "telnum.h"
 
 using std::vector;
@@ -26,6 +27,8 @@ public:
     
     TelnumBook search_name(string slname);
     
+    void save_to(std::ofstream& target);
+    static TelnumBook read_from(std::ifstream& source);
 };
 
 #endif	/* TELNUMBOOK_H */

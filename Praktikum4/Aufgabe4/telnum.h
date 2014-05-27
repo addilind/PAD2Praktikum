@@ -9,6 +9,7 @@
 #define	TELNUM_H
 
 #include <string>
+#include <fstream>
 using std::string;
 
 class Telnum {
@@ -16,6 +17,9 @@ public:
     Telnum(); //Standardkonstruktor
     Telnum(string stelnr, string sfname = "Unbekannter", string slname = "Verehrer", string sstreet = "", int ihnr = 0, int ipc = 0, string slocation = ""); //weiterer Konstruktor 
 
+    void save_to(std::ofstream& target);
+    static Telnum read_from(std::ifstream& source);
+    
     string get_telnum()const; //getter
     void set_telnum(string stelnr); //setter
     

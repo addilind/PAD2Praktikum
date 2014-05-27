@@ -1,5 +1,6 @@
 #include "telnum.h"
 #include <stdexcept>
+#include <sstream>
 
 
 // ------Telnum-Klasse------
@@ -14,6 +15,41 @@ Telnum::Telnum(string stelnr, string sfname, string slname, string sstreet, int 
     set_pc(ipc); //ueberpruefen auf Gueltigkeit der Plz
 }
 
+string read_string(std::ifstream& source){
+    std::stringstream buf;
+    char c = 0;
+    source >> c;
+    while(c != '\0')
+    {
+        buf << c;
+        source >> c;
+    }
+    return buf.str();
+}
+
+void Telnum::save_to(std::ofstream& target){
+    target << telnr << '\0';
+    target << fname << '\0';
+    target << lname << '\0';
+    target << street << '\0';
+    target << hnr << '\0';
+    target << pc << '\0';
+    target << location << '\0';
+}
+
+Telnum Telnum::read_from(std::ifstream& source){
+    Telnum result;
+    result.telnr = read_string(source);
+    result.fname = read_string(source);
+    result.lname = read_string(source);
+    result.street = read_string(source);
+    source >> result.hnr;
+    source.get(); //0-Trennbyte
+    source >> result.pc;
+    source.get(); //0-Trennbyte
+    result.location = read_string(source);
+    return result;
+}
 string Telnum::get_telnum()const {
     return telnr;
 }
@@ -32,9 +68,8 @@ bool Telnum::proof_digit(char cdigit) {
         case '8':
         case '9':
             return true;
-        default:
-            false;
     }
+    return false;
 }
 
 bool Telnum::first_digit(char cdigit) {
@@ -51,9 +86,8 @@ bool Telnum::first_digit(char cdigit) {
         case '8':
         case '9':
             return true;
-        default:
-            false;
     }
+    return false;
 }
 
 void Telnum::set_telnum(string stelnr) {
