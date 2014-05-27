@@ -1,5 +1,6 @@
 #include "telnumbook.h"
 #include <algorithm>
+#include <iostream>
 
 using std::sort;
 
@@ -102,6 +103,10 @@ TelnumBook TelnumBook::read_from(std::ifstream& source){
     TelnumBook result;
     while(source)
     {
+        char testend = source.get();
+        if(source.eof())
+            break;
+        source.putback(testend);
         result.push_back(Telnum::read_from(source));
     }
     return result;

@@ -21,6 +21,10 @@ using std::string;
 
 Telnum add_telbook();
 void print(const Telnum& telnum);
+void menu(TelnumBook& book);
+void searchName(TelnumBook& book);
+void save(TelnumBook& book);
+TelnumBook load();
 
 /*
  * 
@@ -28,100 +32,8 @@ void print(const Telnum& telnum);
 int main() {
     try {
         TelnumBook book;
-        bool exit = false;
-        int eingabe = 0;
-        string input = "leer";
-
-        while (!exit) {
-            cout << "0 um das Programm zu beenden." << endl
-                    << "1 um einen Eintrag im Telefonbuch anzulegen. " << endl
-                    << "2 um Telefonbuch nach Nummern zu sortieren." << endl
-                    << "3 um Telefonbuch nach Namen zu sortieren." << endl
-                    << "4 um Telefonbuch nach Ort zu Sortieren." << endl
-                    << "5 um im Telefonbuch nach einem Namen zu suchen." << endl
-                    << "6 um das Telefonbuch zu speichern." << endl
-                    << "7 um ein Telefonbuch zu laden." << endl;
-            cin >> eingabe;
-            if (!cin) {
-                throw std::runtime_error("Ungueltige Eingabe!");
-            }
-            switch (eingabe) {
-                case 0:
-                    exit = true;
-                    break;
-                case 1:
-                    book.push_back(add_telbook());
-                    break;
-                case 2:
-                    book.sort_by_number();
-                    for (size_t i(0); i < book.size(); ++i) {
-                        cout << book.at(i).get_telnum() << endl;
-                    }
-                    break;
-                case 3:
-                    book.sort_by_name();
-                    for (size_t i(0); i < book.size(); ++i) {
-                        cout << book.at(i).get_lname() << endl;
-                    }
-                    break;
-                case 4:
-                    book.sort_by_location();
-                    for (size_t i(0); i < book.size(); ++i) {
-                        cout << book.at(i).get_location() << endl;
-                    }
-                    break;
-                case 5:
-                    {
-                        cout << "Nach welchem Namen moechten Sie suchen? ";
-                        cin >> input;
-                        if (!cin) {
-                            throw std::runtime_error("Fehlerhafte Eingabe!");
-                        }
-                        TelnumBook results(book.search_name(input));
-                        if(results.size() == 0)
-                            cout << "Name nicht gefunden";
-                        else for (size_t i(0); i < results.size(); ++i) {
-                            cout << results.at(i).get_telnum() << endl;
-                        }
-                    }
-                    break;
-                case 6:
-                    {
-                        string filename;
-                        cout << "Dateiname: ";
-                        cin >> filename;
-                        if(!cin)
-                            throw std::runtime_error("Ungueltige Eingabe");
-                        std::ofstream target(filename.c_str());
-                        if(!target)
-                            throw std::runtime_error("Ungueltige Datei");
-                        book.save_to(target);
-                        target.close();
-                    }
-                    break;
-                case 7:
-                    {
-                        string filename;
-                        cout << "Dateiname: ";
-                        cin >> filename;
-                        if(!cin)
-                            throw std::runtime_error("Ungueltige Eingabe");
-                        std::ifstream source(filename.c_str());
-                        if(!source)
-                            throw std::runtime_error("Ungueltige Datei");
-                        book = TelnumBook::read_from(source);
-                        source.close();
-                        
-                        for(TelnumBook::iterator iter = book.begin(); 
-                                iter != book.end(); ++iter)
-                            print(*iter);
-                    }
-                    break;
-                default:
-                    throw std::runtime_error("Ungueltige Eingabe!");
-                    break;
-            }
-        }
+        
+        menu(book);
 
         return 0;
 
@@ -197,5 +109,103 @@ void print(const Telnum& telnum) {
             << "Strasse " << telnum.get_street() << endl
             << "Hausnr. " << telnum.get_hnr() << endl
             << "PLZ. " << telnum.get_pc() << endl
-            << "Ort " << telnum.get_location() << endl;
+            << "Ort " << telnum.get_location() << endl << endl;
+}
+
+void menu(TelnumBook& book) {
+    bool exit = false;
+    int eingabe = 0;
+    
+    while (!exit) {
+        cout << "0 um das Programm zu beenden." << endl
+                << "1 um einen Eintrag im Telefonbuch anzulegen. " << endl
+                << "2 um Telefonbuch nach Nummern zu sortieren." << endl
+                << "3 um Telefonbuch nach Namen zu sortieren." << endl
+                << "4 um Telefonbuch nach Ort zu Sortieren." << endl
+                << "5 um im Telefonbuch nach einem Namen zu suchen." << endl
+                << "6 um das Telefonbuch zu speichern." << endl
+                << "7 um ein Telefonbuch zu laden." << endl;
+        cin >> eingabe;
+        if (!cin) {
+            throw std::runtime_error("Ungueltige Eingabe!");
+        }
+        switch (eingabe) {
+            case 0:
+                exit = true;
+                break;
+            case 1:
+                book.push_back(add_telbook());
+                break;
+            case 2:
+                book.sort_by_number();
+                break;
+            case 3:
+                book.sort_by_name();
+                break;
+            case 4:
+                book.sort_by_location();
+                break;
+            case 5:
+                searchName(book);
+                break;
+            case 6:
+                save(book);
+                break;
+            case 7:
+                book = load();
+                break;
+            default:
+                throw std::runtime_error("Ungueltige Eingabe!");
+                break;
+        }
+
+
+    for(TelnumBook::iterator iter = book.begin(); iter != book.end(); ++iter)
+        print(*iter);
+    }
+}
+
+void searchName(TelnumBook& book)
+{
+    string input;
+    cout << "Nach welchem Namen moechten Sie suchen? ";
+    cin >> input;
+    if (!cin) {
+        throw std::runtime_error("Fehlerhafte Eingabe!");
+    }
+    TelnumBook results(book.search_name(input));
+    if(results.size() == 0)
+        cout << "Name nicht gefunden";
+    else for (size_t i(0); i < results.size(); ++i) {
+        cout << results.at(i).get_telnum() << endl;
+    }
+}
+
+void save(TelnumBook& book)
+{
+    string filename;
+    cout << "Dateiname: ";
+    cin >> filename;
+    if(!cin)
+        throw std::runtime_error("Ungueltige Eingabe");
+    std::ofstream target(filename.c_str());
+    if(!target)
+        throw std::runtime_error("Ungueltige Datei");
+    book.save_to(target);
+    target.close();
+}
+TelnumBook load()
+{
+    string filename;
+    cout << "Dateiname: ";
+    cin >> filename;
+    if(!cin)
+        throw std::runtime_error("Ungueltige Eingabe");
+    std::ifstream source(filename.c_str());
+    if(!source)
+        throw std::runtime_error("Ungueltige Datei");
+    TelnumBook book = TelnumBook::read_from(source);
+    source.close();
+    
+    return book;
 }
