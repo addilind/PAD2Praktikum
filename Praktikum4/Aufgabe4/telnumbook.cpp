@@ -107,6 +107,7 @@ TelnumBook TelnumBook::read_from(std::ifstream& source){
         if(source.eof())
             break;
         source.putback(testend);
+        
         result.push_back(Telnum::read_from(source));
     }
     return result;

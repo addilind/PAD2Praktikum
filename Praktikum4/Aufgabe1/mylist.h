@@ -25,6 +25,8 @@ public:
         last->suc = 0; //der Zeiger, der vom letzten auf das Element nach dem letzten zeigt wird auf 0 gesetzt
         last->pre = 0; //der Zeiger, der vom letzten auf das Element vor dem letzten zeigt, wird auf 0 gesetzt
     }
+    
+    
 
     ~myList() { //Destruktor
 
@@ -107,8 +109,8 @@ public:
             throw std::runtime_error("Liste ist leer!\n");
         } // Liste ist schon leer  
         myNode<Elem>* pelem = first;
-        for (; index > 0 && pelem != last; --index);
-        pelem = pelem->suc;
+        for (; index > 0 && pelem != last; --index)
+            pelem = pelem->suc;
 
         if (pelem == last)
             throw std::runtime_error("Ungueltiger Index");
@@ -117,6 +119,8 @@ public:
     }
 
     Elem del(myNode<Elem>* pelem) {
+        if (pelem == last)
+            throw std::runtime_error("Waechter nicht loeschbar");
         Elem deleted = pelem->val;
 
         if (pelem->pre == 0) // pelem == first

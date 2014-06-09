@@ -44,8 +44,8 @@ int main() {
         std::vector<myC> vi0;
         std::vector<int> vi1;
 
-        vi0.push_back(myC("hallo"));
-        vi0.push_back(myC("welt"));
+        vi0.push_back(myC("hallo "));
+        vi0.push_back(myC("Welt "));
         vi0.push_back(myC("!"));
         vi1.push_back(2);
         vi1.push_back(3);

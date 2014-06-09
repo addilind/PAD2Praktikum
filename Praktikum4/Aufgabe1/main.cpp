@@ -31,7 +31,6 @@ int main() {
             cout << " 5: Zufallszahl irgendwo in Liste einfuegen" << endl;
             cout << " 6: Zahl irgendwo in Liste loeschen" << endl;
             cout << " 7: Liste ausgeben" << endl;
-            cout << " 0: Programm beenden" << endl << " ";
             cin >> input;
             if (!cin) throw std::runtime_error("Inkorrekte Eingabe!");
             switch (input) {
@@ -40,30 +39,39 @@ int main() {
                     break;
                 case 6:
                     mylist.print();
-                    cout << "An welcher Stelle wollen Sie eine Zufallszahl loeschen?";
+                    cout << "An welcher Stelle wollen Sie eine Zahl loeschen?";
                     cin >> input;
                     if (!cin) throw std::runtime_error("Inkorrekte Eingabe!");
                     mylist.del(input);
                     break;
-                case 5:
+                case 5: {
                     mylist.print();
                     cout << "An welcher Stelle wollen Sie eine Zufallszahl einfuegen? ";
                     cin >> input;
                     if (!cin) throw std::runtime_error("Inkorrekte Eingabe!");
-                    mylist.ins(input, std::rand() % 1000);
+                    int rnd = std::rand() % 1000;
+                    cout << "Zufallszahl: "<<rnd<<endl;
+                    mylist.ins(input, rnd);
                     break;
+                }
                 case 4:
                     cout << "Geloeschter Wert war: " << mylist.pop_back() << endl;
                     break;
                 case 3:
                     cout << "Geloeschter Wert war: " << mylist.pop_front() << endl;
                     break;
-                case 2:
-                    mylist.push_back(std::rand() % 1000);
+                case 2: {
+                    int rnd = std::rand() % 1000;
+                    cout << "Zufallszahl: "<<rnd<<endl;
+                    mylist.push_back(rnd);
                     break;
-                case 1:
-                    mylist.push_front(std::rand() % 1000);
+                }
+                case 1: {
+                    int rnd = std::rand() % 1000;
+                    cout << "Zufallszahl: "<<rnd<<endl;
+                    mylist.push_front(rnd);
                     break;
+                }
                 case 0:
                     exit = true;
                     break;
