@@ -1,6 +1,7 @@
 /* 
  * File:   tree.h
  * Author: Dorothee Müller-Ahlheim
+ * Matr.:736476
  *
  * Created on 9. Juni 2014, 10:53
  */
@@ -27,7 +28,7 @@ public:
         root = 0;//die Wurzel auf 0 setzen
     }
 
-    void clear() {
+    void clear() { //clear-funktion um den Baum manuell loeschen zu koennen (ruft die del funktion auf)
         Node::del_tree(root); //Loeschfunktion mit wurzel aufrufen. Fuehrt dazu das der Baum ab der Wurzel geloscht wird
         root = 0;//Die Wurzel auf 0 setzen
     }
@@ -39,184 +40,186 @@ public:
 
         explicit Node(const T& tkey) : value(1), key(tkey), left(0), right(0), parent(0) {
 
-        } //weiterer Konstruktor (setzte den Wert im Knoten auf 1)
+        } //weiterer Konstruktor (setzt den Wert im Knoten auf 1)
 
         ~Node() {//Destruktor
         }
 
-        //in-order-traversierung
+        //in-order-traversierung (Methode)
 
         void in_order() {//bekommt einen Knoten uebergeben, wird so lange wieder aufgerufen bis der komplette Baum durchlaufen wurde
             if (left) {//wenn der linke Teilbaum ungleich 0 ist
                 left->in_order(); //rufe die Funktion erneut mit dem linken Folgeknoten auf
             }
-            cout << key;
+            cout << "Schluessel: " << key << " Wert im Knoten: " << value << endl; //Gebe den Schluessel und den Wert im Knoten aus
             if (right) {//wenn der rechte Teilbaum auch ungleich 0 ist
-                right->in_order();
+                right->in_order(); //rufe die Funktion erneut mit dem rechten Folgeknoten auf
             }
         }
 
-        //Level-order-traversierung
+        //Level-order-traversierung (Methode)
 
-        void level_order() {//Bekommt einen Knoten uebergeben
-            Node* node = 0;
+        void level_order() {
+            Node* node = 0; //Erstellt einen Pointer auf einen neuen Knoten
             std::queue<Node*> q; //erstelle einen Container namens q mit Node* Objekten
             q.push(this); //Schreibe den aktuellen Knoten in den queue Container
-            while (!q.empty()) {
-                node = q.front();
-                q.pop();
-                cout << node->key; // z.B. cout
-                if (node->left != 0) {
-                    q.push(node->left);
+            while (!q.empty()) {//solange der queue Container nicht leer ist
+                node = q.front(); //zeigt der zeiger auf den ersten Knoten im queue-Container
+                q.pop(); //wird das erste Objekt im Container
+                cout << "Schluessel: " << node->key << " Wert im Knoten: " << node->value << endl; // und der dazugehoerige Schluessel sowie wert ausgegeben
+                if (node->left != 0) { //Wenn der linke folgeknoten nicht 0 ist
+                    q.push(node->left);//fuege ihn in den Container ein
                 }
-                if (node->right != 0) {
-                    q.push(node->right);
+                if (node->right != 0) { //wenn der rechte Folgeknoten nicht 0 ist
+                    q.push(node->right);//fuege den auch in den Container ein
                 }
             }
         }
 
-        //alle Knoten in einem beliebigen Teilbaum zaehlen
+        //alle Knoten in einem beliebigen Teilbaum zaehlen (Methode)
 
         unsigned int count_nodes() {//bekommt die wurzel gewunschten Teilbaums uebergeben
             unsigned int left_n = 0; //Anzahld er Knoten im linken Teilbaum
             unsigned int right_n = 0; //anzahl der Knoten im rechten Teilbaum
 
-            if (left) {
-                left_n = left->count_nodes();
+            if (left) { //Wenn der linke Knoten nicht 0 ist
+                left_n = left->count_nodes(); //rufe die FUnktion erneut mit dessen linkem Folgeknoten auf
             }
-            if (right) {
-                right_n = right->count_nodes();
+            if (right) { //Wenn auch der rechte Knoten nicht 0 ist
+                right_n = right->count_nodes();//rufe auch hier die Funktion erneut mit dessen rechtem Folgeknoten auf
             }
-            return left_n + right_n + 1;
+            return left_n + right_n + 1; //Addiere die linken, die rechten und den wurzelknoten zusammen
         }
 
-        //Schluessel finden
+        //Schluessel finden (Methode)
 
-        Node* find(const T& tkey) {
-            if (tkey < key) {//pruefe ob der uebergebene Schluessel kleiner als der aktuelle
-                if (left) { //rufe die Funktion erneut auf mit dem linken Folgeknoten
-                    return left->find(tkey);
-                } else {
-                    return 0; //wenn der schluessel nicht gefunden
+        Node* find(const T& tkey) {//bekommt einen schluessel uebergeben
+            if (tkey < key) {//prueft ob der uebergebene Schluessel kleiner als der aktuelle ist dann muss links gesucht werden
+                if (left) { //wenn der linke Knoten nicht leer ist
+                    return left->find(tkey); //rufe die funktion erneut mit dem linken knoten auf
+                } else { //Ansonsten konnte der Schluessel nicht gefunden werden
+                    return 0; //und gibt 0 zurueck
                 }
-            } else if (tkey > key) {//wenn der Schluessel groesser
-                if (right) { //rufe die Funktion erneut auf mit dem rechten folge Knoten
-                    return right->find(tkey);
-                } else {
-                    return 0;
+            } else if (tkey > key) {//wenn der Schluessel groesser als der aktuelle schluessel ist muss rechts gesucht werden
+                if (right) { //wenn der rechte Knoten nicht leer ist
+                    return right->find(tkey);//rufe die Funktion erneut auf mit dem rechten folge Knoten
+                } else {//Ansonsten kann der schluessel nicht gefunden werden
+                    return 0;//und die funktion gibt 0 zurueck
                 }
-            } else if (tkey == key) { //wenn der Schluessel gleich
-                return this;
+            } else if (tkey == key) { //wenn der Schluessel gleich dem schluessel im aktuellen Knoten ist
+                return this; //Gebe den aktuellen Knoten zurueck
             } else { //Wenn alles andere nicht zutrifft
                 throw std::runtime_error("This should never happen!"); //werfe einen Fehler
             }
         }
 
-        //Knoten einfuegen
+        //Knoten einfuegen (Methode)
 
-        Node* insert(const T& tkey) {//bekommt einen Knoten und den gewunschten Schluessel uebergeben am Anfang muss der Knoten die Wurzel sein
-            if (tkey < key) {//pruefe ob der uebergebene Schluessel kleiner als der aktuelle
-                if (left != 0)
-                    return left->insert(tkey); //rufe die Funktion erneut auf mit dem linken Folgeknoten
-                else {
-                    left = new Node(tkey);
-                    left->parent = this;
-                    return left;
+        Node* insert(const T& tkey) {//bekommt gewuenschten Schluessel uebergeben
+            if (tkey < key) {//prueft ob der uebergebene Schluessel kleiner als der aktuelle ist, dann muss links eingefuegt werden
+                if (left != 0) //wenn der linke Knoten nicht null ist
+                    return left->insert(tkey); //rufe die Funktion erneut auf mit dem linken Folgeknoten auf
+                else {//wenn der linke Knoten leer sein sollte
+                    left = new Node(tkey); //wird er zum neuen Knoten mit dem uebergebenen Schluessel
+                    left->parent = this; //sein vorgaenger ist der aktuelle Knoten
+                    return left; //und der linke Knoten wird zurueck gegeben
                 }
-            } else if (tkey > key) {//wenn der Schluessel groesser
-                if (right != 0)
+            } else if (tkey > key) {//wenn der Schluessel groesser als der aktuelle ist, muss recht eingefuegt werden 
+                if (right != 0) //wenn der rechte Knoten nicht leer ist
                     return right->insert(tkey); //rufe die Funktion erneut auf mit dem linken Folgeknoten
-                else {
-                    right = new Node(tkey);
-                    right->parent = this;
-                    return right;
+                else {//Ansonsten
+                    right = new Node(tkey);//wird er zum neuen Knoten mit uebergebenem Schluessel
+                    right->parent = this; //sein Elternknoten ist der aktuelle
+                    return right; //und der rechte KNoten wird zurueck gegeben
                 }
-            } else if (tkey == key) { //wenn der Schluessel gleich
-                value++; //erhoehe den Wert im Knoten
-                return this;
-            } else { //Wenn alles andere nicht zutrifft
+            } else if (tkey == key) { //wenn der Schluessel gleich ist
+                value++; //wird der Wert im Knoten erhoeht
+                return this; //und der aktuelle KNoten zurueck gegeben
+            } else { //Wenn nichts davon zutrifft
                 throw std::runtime_error("Knoten konnte nicht hinzugefuegt werden!"); //werfe einen Fehler
             }
         }
 
-        //Knoten loeschen  
+        //Knoten loeschen  (Methode)
 
         static void del_tree(Node * node) {//bekommt Knoten uebereben
             if (node != 0) { //wenn der Knoten nicht 0 ist
                 del_tree(node->left); //rufe die Funktion erneut auf mit dem linken rechten folge Knoten
                 del_tree(node->right); //rufe die Funktion mit dem rechten folge Knoten auf
 
-                if (node->parent) {
-                    if (node->parent->left == node) {
-                        node->parent->left = 0;
+                if (node->parent) { //Wenn der aktuelle Knoten einen elternknoten hatte
+                    if (node->parent->left == node) {//pruefe ob der aktuelle Knoten gleich der linke nachfolger seinen Elternknoten ist
+                        node->parent->left = 0; //dann setze diesen auf 0
                     }
-                    if (node->parent->right == node) {
-                        node->parent->right = 0;
+                    if (node->parent->right == node) { //pruefe ob der aktuelle Knoten gleich dem rechten nachfolger seines Elternknotens ist
+                        node->parent->right = 0;//dann setze diesen auf 0
                     }
                 }
                 delete node; //loesche den uebergebenen Knoten
             }
         }
 
-        //Baumhoehe bestimmen
+        //Baumhoehe bestimmen (Methode)
 
         unsigned int get_height() { //unsigned um negative von vorn herein ausszuschließen
             unsigned int left_h = 0; //hoehe des linken Teilbaums
             unsigned int right_h = 0; //hoehe des rechten Teilbaums
 
-            if (left) {
+            if (left) { //Wenn der Linke knoten nicht 0 ist
                 left_h = left->get_height() + 1; //rekursiver aufruf fuer den linken Teilbaum
             }
-            if (right) {
+            if (right) { //wenn der rechte Knoten nicht 0 ist
                 right_h = right->get_height() + 1; //rekursiver aufruf fuer den rechten Teilbaum
             }
             //std::max() liefert den groeßeren wert von links oder rechts. sind beide gleich lang wird der linke zurück gegeben
             return std::max(left_h, right_h); //gibt die gesamthoehe zurück
         }
 
+        //neuen Knoten al Wurzel einfuegen (rotieren)
+        
         bool rotateUp() {
-            Node* oldparent = parent;
-            if (oldparent == 0)
-                return false;
-            if (oldparent->left == this) //Rechtsrotieren
+            Node* oldparent = parent; //erstellt einen Zeiger auf den Eltern Knoten des aktuellen Knoten und nennt diesen oldparent
+            if (oldparent == 0)//wenn der eltern knoten 0 ist
+                return false;//gebe false zurueck
+            if (oldparent->left == this) //wenn der aktuelle Knoten der linke nachfolger seines Eltern Knotens ist (Rechtsrotieren)
             {
-                parent = oldparent->parent;
-                oldparent->left = right;
+                parent = oldparent->parent; //wird der Elternknoten des aktuellen Elternknotens der neue Elternknoten des aktuellen Knotens
+                oldparent->left = right; //und der linke nachfolger des alten Elternknotens wird zum rechten
 
-                if (parent) {
-                    if (parent->left == oldparent)
-                        parent->left = this;
-                    else
-                        parent->right = this;
+                if (parent) { //solange der Elternknoten nicht leer ist (also der aktuelle noch einen Elternknoten hat)
+                    if (parent->left == oldparent) //und der linke nachfolger des aktuellen Eltern knotens der alte Elternknoten ist
+                        parent->left = this;//wird der linke nachfolger des eltern knotens der aktuelle
+                    else //andernfalls
+                        parent->right = this; //wird der rechte nachfolger des elternknotens der aktuelle
                 }
 
-                if (right) {
-                    right->parent = oldparent;
+                if (right) {//wenn der rechte Knoten nicht leer ist
+                    right->parent = oldparent;//wird der rechte eltern knoten zum alten elternknoten (also dem des vorherigen elternknotens)
                 }
 
-                oldparent->parent = this;
-                right = oldparent;
+                oldparent->parent = this; // und der neue elternteil des vorherigen elternknbotens wird der aktuelle
+                right = oldparent; //der rechte wird dann der alte Elternknoten
 
-            } else {
-                parent = oldparent->parent;
-                oldparent->right = left;
+            } else { //Ist der aktuelle KNoten nicht der linke (sondern der rechte nachfolger seines Elternknotens) muss Linksrotiert werden
+                parent = oldparent->parent;//der neue Elternknoten wird zum Elternknoten des alten Elternknotens
+                oldparent->right = left; //und der linke KNoten des aktuellen wird zum rechten des alten Elternknotens
 
-                if (parent) {
-                    if (parent->left == oldparent)
-                        parent->left = this;
-                    else
-                        parent->right = this;
+                if (parent) { //wenn der Elternknoten nicht leer ist
+                    if (parent->left == oldparent) //wenn der linke KNoten vom aktuellen Elterknoten dem alten Elternknoten entspricht
+                        parent->left = this; //wird der aktuelle Knoten zum linken Knoten des aktuellen Elternknotens
+                    else//wenn der linke nachfolger nicht dem alten Elternknoten entspricht
+                        parent->right = this; //wird der aktuelle Knoten zum rechten Knoten des aktuellen Elternknotens
                 }
 
-                if (left) {
-                    left->parent = oldparent;
+                if (left) { //wenn der linke Knoten nicht leer ist
+                    left->parent = oldparent; //wird der alte elternknoten zum eltern knoten des linken KNotens
                 }
 
-                oldparent->parent = this;
-                left = oldparent;
+                oldparent->parent = this; //der neue Elternknoten des alten Elternknotens ist der aktuelle
+                left = oldparent; //und der linke nachfolger wird der alte Elternknoten
 
             }
-            return true;
+            return true; //wenn die rotation erfolgreich verlaufen ist, gib true zurueck
         }
 
     private:
@@ -224,47 +227,50 @@ public:
         T key; //Schluessel und gleichzeitig eltern Knoten
         Node* left; //linker Kindsknoten
         Node* right; //rechter Kindsknoten
-        Node* parent;
-    }; //wurzel liefern
-
+        Node* parent; //elternknoten
+    };
+    
+    //liefert den wurzelknoten
     binTree<T>::Node* get_root() const {
         return root;
     }
-
+    
+    //liefert die Anzahl der Knoten im Baum
     unsigned int size() {
         if (root) {
-            return root->count_nodes();
+            return root->count_nodes();//gebe das ergebnis der count_nodes-methode von Node zurueck
         }
         return 0;
     }
 
+    //liefert die Hohe des Baums (Beginn bei Ebene 0)
     unsigned int height() {
         if (root) {
-            return root->get_height();
+            return root->get_height();//gebe das ergebnis der get_height-methode von Node zurueck
         }
         return -1;
     }
 
-    binTree<T>::Node* find(const T& tkey) {
+    binTree<T>::Node* find(const T& tkey) { //Sucht einen gewuenschten Schluessel im Baum
         if (root) { //Wenn root ungleich 0
-            return root->find(tkey);
+            return root->find(tkey); //gebe das ergebnis der find-methode von Node zurueck
         }
-        return 0;
+        return 0; //ansonsten gebe 0 zurueck
     }
 
-    void print_iO() {
-        if (root) {
-            root->in_order();
-        } else {
-            cout << "Der Baum ist leer!" << endl;
+    void print_iO() { //Ausgabe der In-Order Traversierung
+        if (root) { //Solange die Wurzel nicht leer ist
+            root->in_order(); //rufe die in_order-traversierung mit der aktuellen wurzel aus
+        } else { //Ansonsten
+            cout << "Der Baum ist leer!" << endl; //ist der Baum leer
         }
     }
 
-    void print_lO() {
-        if (root) {
-            root->level_order();
-        } else {
-            cout << "Der Baum ist leer!" << endl;
+    void print_lO() {//Ausgabe der Level-Order Traversierung
+        if (root) {//Solange die Wurzel nicht leer ist
+            root->level_order();//rufe die level_order-traversierung mit der aktuellen wurzel aus
+        } else {//Ansonsten
+            cout << "Der Baum ist leer!" << endl;//ist der Baum leer
         }
     }
 
@@ -283,11 +289,11 @@ public:
     void insert_top(const T& tkey) {
         if (root == 0) { //wen der uebergebene Knoten leer ist
             root = new Node(tkey); //Aufruf des weiteren Konstruktors mit key
-        } else {
-            Node* newelem = root->insert(tkey);
-            while (newelem->rotateUp()) {
+        } else {//ansonsten
+            Node* newelem = root->insert(tkey);//fuege einen neuen KNoten ein
+            while (newelem->rotateUp()) { //un rotiere diesen an die Wurzel
             }
-            root = newelem;
+            root = newelem; //die wurzel ist nun das neue element
         }
     }
 private:
