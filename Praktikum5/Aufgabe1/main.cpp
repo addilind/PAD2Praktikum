@@ -105,6 +105,19 @@ void run_tests()
         test<std::string>(copy.levelOrder(), baum.levelOrder(), "LevelOrder Kopie = LevelOrder Baum");
         test<int>(copy.size(), baum.size(), "Groesse Kopie = Groesse Baum");
         test<int>(copy.height(), baum.height(), "Hoehe Kopie = Hoehe Baum");
+        
+        binTree<int> baum2;
+        baum2.insert(6);
+        baum2.insert(1);
+        baum2.insert(0);
+        baum2.insert(3);
+        baum2.insert_top(7);
+        
+        test<std::string>(baum2.inOrder(), "0 1 3 6 7 ", "InOrder ints 0 1 3 6 7");
+        test<std::string>(baum2.levelOrder(), "7 6 1 0 3 ", "LevelOrder ints 7 6 1 0 3");
+        test<int>(baum2.height(), 3, "Hoehe ints 3");
+        test<int>(baum2.size(), 5, "Groesse ints 5");
+        
 }
 
 void menuCreateRandom(binTree<char>& baum)

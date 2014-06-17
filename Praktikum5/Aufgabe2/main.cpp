@@ -34,7 +34,7 @@ void quicksort(vector<T>& vs, unsigned int begin, unsigned int end) {
     while (ui < oi) { //Solange die Zeiger nicht aufs selbe Element zeigen
         bool complete = false;
         while (vs.at(ui) < pivot) {//Solange nach rechts bis ein Partner groeßer als Pivot
-            ++ui; //iterator eins weiter gehen
+            ++ui;
             if (ui == oi) {
                 complete = true;
                 break;
