@@ -27,7 +27,35 @@ void test(T result, T expected, std::string message) {
 void random_tree(binTree<char>& target, unsigned int count = 10) {
     for(unsigned int i = 0; i < count; ++i)
     {
-        target.insert((std::rand()% 26) +65 );
+        switch(std::rand() % 26)
+        {
+            case 0:     target.insert('A'); break;
+            case 1:     target.insert('B'); break;
+            case 2:     target.insert('C'); break;
+            case 3:     target.insert('D'); break;
+            case 4:     target.insert('E'); break;
+            case 5:     target.insert('F'); break;
+            case 6:     target.insert('G'); break;
+            case 7:     target.insert('H'); break;
+            case 8:     target.insert('I'); break;
+            case 9:     target.insert('J'); break;
+            case 10:    target.insert('K'); break;
+            case 11:    target.insert('L'); break;
+            case 12:    target.insert('M'); break;
+            case 13:    target.insert('N'); break;
+            case 14:    target.insert('O'); break;
+            case 15:    target.insert('P'); break;
+            case 16:    target.insert('Q'); break;
+            case 17:    target.insert('R'); break;
+            case 18:    target.insert('S'); break;
+            case 19:    target.insert('T'); break;
+            case 20:    target.insert('U'); break;
+            case 21:    target.insert('V'); break;
+            case 22:    target.insert('W'); break;
+            case 23:    target.insert('X'); break;
+            case 24:    target.insert('Y'); break;
+            case 25:    target.insert('Z'); break;
+        }
     }
 }
 
@@ -128,7 +156,7 @@ int main() {
         binTree<char> baum;
         while(true)
         {
-            cout << "Option[1-5]: ";
+            cout << "Option: ";
             int option = 0;
             cin >> option;
             if(!cin)
