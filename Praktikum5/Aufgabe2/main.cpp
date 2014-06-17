@@ -72,12 +72,9 @@ void test(T result, T expected, std::string message) {
     if (result != expected)
         std::cout << "failed [" << result << "]" << std::endl;
     else
-        std::cout << "succeded" << std::endl;
+        std::cout << "succeeded" << std::endl;
 }
 
-/*
- * 
- */
 int main() {
     try {
         vector<char> vs;

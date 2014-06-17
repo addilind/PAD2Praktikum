@@ -10,17 +10,24 @@
 
 #include <iostream>
 #include <stdexcept>
+#include <sstream>
 #include <time.h>
 #include <queue>
 
 using std::cout;
 using std::endl;
 
-template<class T> class binTree {
+template<class T>
+class binTree {
 public:
 
     binTree() : root(0) {
-    } //Standartkonstruktor
+    } //Standardkonstruktor
+    
+    binTree(const binTree& other): root(0) {
+        if(other.root)
+            root = new Node(*other.root);
+    }
 
     ~binTree() { //Destruktor
         Node::del_tree(root); //Loeschfunktion mit wurzel aufrufen. Fuehrt dazu das der Baum ab der Wurzel geloscht wird
@@ -35,7 +42,20 @@ public:
     struct Node { //Knoten-Struct
 
         Node() : value(0), key(T()), left(0), right(0), parent(0) {
-        } //Standartkonstruktor
+        } //Standardkonstruktor
+        
+        Node(const Node& other) : value(other.value), key(other.key), left(0), right(0), parent(0)
+        {
+            if(other.left)
+            {
+                left = new Node(*other.left);
+                left->parent = this;
+            }
+            if(other.right) {
+                right = new Node(*other.right);
+                right->parent = this;
+            }
+        }
 
         explicit Node(const T& tkey) : value(1), key(tkey), left(0), right(0), parent(0) {
 
@@ -46,26 +66,25 @@ public:
 
         //in-order-traversierung
 
-        void in_order() {//bekommt einen Knoten uebergeben, wird so lange wieder aufgerufen bis der komplette Baum durchlaufen wurde
+        void in_order(std::ostream& result) {//bekommt einen Knoten uebergeben, wird so lange wieder aufgerufen bis der komplette Baum durchlaufen wurde
             if (left) {//wenn der linke Teilbaum ungleich 0 ist
-                left->in_order(); //rufe die Funktion erneut mit dem linken Folgeknoten auf
+                left->in_order(result); //rufe die Funktion erneut mit dem linken Folgeknoten auf
             }
-            cout << key;
-            if (right) {//wenn der rechte Teilbaum auch ungleich 0 ist
-                right->in_order();
+            result << key << " ";
+            if (right) {//wenn der rechte Teilbaum ungleich 0 ist
+                right->in_order(result);
             }
         }
 
         //Level-order-traversierung
-
-        void level_order() {//Bekommt einen Knoten uebergeben
+        void level_order(std::ostream& result) {//Bekommt einen Knoten uebergeben
             Node* node = 0;
             std::queue<Node*> q; //erstelle einen Container namens q mit Node* Objekten
             q.push(this); //Schreibe den aktuellen Knoten in den queue Container
             while (!q.empty()) {
                 node = q.front();
                 q.pop();
-                cout << node->key; // z.B. cout
+                result << node->key << " ";
                 if (node->left != 0) {
                     q.push(node->left);
                 }
@@ -100,7 +119,7 @@ public:
                     return 0; //wenn der schluessel nicht gefunden
                 }
             } else if (tkey > key) {//wenn der Schluessel groesser
-                if (right) { //rufe die Funktion erneut auf mit dem rechten folge Knoten
+                if (right) { //rufe die Funktion erneut auf mit dem rechten Folgeknoten
                     return right->find(tkey);
                 } else {
                     return 0;
@@ -254,7 +273,7 @@ public:
 
     void print_iO() {
         if (root) {
-            root->in_order();
+            root->in_order(std::cout);
         } else {
             cout << "Der Baum ist leer!" << endl;
         }
@@ -262,10 +281,24 @@ public:
 
     void print_lO() {
         if (root) {
-            root->level_order();
+            root->level_order(std::cout);
         } else {
             cout << "Der Baum ist leer!" << endl;
         }
+    }
+    
+    std::string inOrder()
+    {
+        std::stringstream result;
+        root->in_order(result);
+        return result.str();
+    }
+    
+    std::string levelOrder()
+    {
+        std::stringstream result;
+        root->level_order(result);
+        return result.str();
     }
 
     bool empty() const { //prueft ob Baum leer
@@ -291,8 +324,6 @@ public:
         }
     }
 private:
-
-
     Node* root;
 };
 
